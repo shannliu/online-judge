@@ -1,5 +1,7 @@
 package cn.edu.nju.software.judge.service.user;
 
+import cn.edu.nju.software.judge.model.UserModel;
+
 /**
  * ////////////////////////////////////////////////////////////////////
  * //                          _ooOoo_                               //
@@ -25,4 +27,5 @@ package cn.edu.nju.software.judge.service.user;
  * ////////////////////////////////////////////////////////////////////
  */
 public interface UserService {
+    boolean loginIn(UserModel model);
 }

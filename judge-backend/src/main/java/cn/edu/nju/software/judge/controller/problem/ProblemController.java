@@ -1,6 +1,12 @@
 package cn.edu.nju.software.judge.controller.problem;
 
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -28,4 +34,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class ProblemController {
+    @GetMapping
+    @RequestMapping(value = "getProblemList.do")
+    public String getProblemList(HttpServletRequest request, HttpServletResponse response,
+                                 @Param("name")String name, @Param("id")Integer id){
+        System.out.println("name: "+name+" id: "+id);
+        return "ok";
+    }
 }
