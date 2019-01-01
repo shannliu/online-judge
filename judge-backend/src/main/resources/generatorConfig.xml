@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry location="/Users/liuxiaojing/mvnrepository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar"/>
+
+    <context id="mysqlgenerator" targetRuntime="MyBatis3">
+
+        <!-- 设置参数 -->
+        <property name="suppressTypeWarnings" value="true"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 添加插件支持 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/judge?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root"
+                        password="" />
+
+        <!-- 类型转化规则 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" /> <!-- 是否使用 BigDecimal 类 -->
+            <property name="useJSR310Types" value="true" /> <!-- 是否使用 LocalDate/LocalTime 类 -->
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="cn.edu.nju.software.judge.beans" targetProject="src/main/java" />
+
+        <sqlMapGenerator targetPackage="cn.edu.nju.software.judge.dao" targetProject="src/main/resources/mapper" />
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.edu.nju.software.judge.dao" targetProject="src/main/java">
+        </javaClientGenerator>
+
+
+
+        <table tableName="_article"/>
+        <table tableName="_reply"/>
+        <table tableName="_contest"/>
+        <table tableName="_cproblem"/>
+        <table tableName="_news"/>
+        <table tableName="_privilege"/>
+        <table tableName="_problem"/>
+        <table tableName="_submission"/>
+        <table tableName="_submission_code"/>
+        <table tableName="_compileinfo"/>
+        <table tableName="_runtimeinfo"/>
+        <table tableName="_sim"/>
+        <table tableName="_custominput"/>
+        <table tableName="_user"/>
+
+    </context>
+
+</generatorConfiguration>

@@ -1,0 +1,11 @@
+server:
+  port: 7001
+
+judge:
+  server: 192.168.227.129
+  port: 5000
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+

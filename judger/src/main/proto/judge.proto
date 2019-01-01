@@ -1,0 +1,39 @@
+syntax = "proto3";
+package judge;
+
+// The Customer service definition
+service Judge {
+	rpc compile (CompileRequest) returns (CompileResponse) {}
+
+	rpc run (RunRequest) returns (RunResponse) {}
+}
+
+message CompileRequest {
+    int32 language = 1;
+    int32 runId = 2;
+    string source = 3;
+}
+
+message CompileResponse {
+    bool success = 4;
+    string error = 5;
+}
+
+message RunRequest {
+    int32 runId = 6;
+    int32 problemId = 7;
+    int32 language = 8;
+    int32 time = 9;
+    int32 memory = 10;
+}
+
+message RunResponse {
+    int32 runId = 11;
+    int32 result = 12;
+    string error = 13;
+    int32 time = 14;
+    int32 memory = 15;
+    int32 sim = 16;
+    int32 simSid = 17;
+    double passRate = 18;
+}
