@@ -1,4 +1,4 @@
-package software.judger.utils;
+package cn.edu.nju.software.judger.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

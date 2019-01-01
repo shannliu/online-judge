@@ -1,10 +1,10 @@
-package software.judger;
+package cn.edu.nju.software.judger;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import software.judger.core.JudgeClient;
+import cn.edu.nju.software.judger.core.JudgeClient;
 
 @SpringBootApplication
 public class JudgerApplication {

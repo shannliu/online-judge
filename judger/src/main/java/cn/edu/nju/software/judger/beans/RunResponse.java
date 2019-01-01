@@ -1,15 +1,8 @@
-package software.judger;
+package cn.edu.nju.software.judger.beans;
 
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import software.beans.RedisSubmission;
-import software.beans.RunRequest;
-import software.beans.RunResponse;
-import software.judger.core.JudgeClient;
+import lombok.*;
 
-import javax.annotation.Resource;
+import java.io.Serializable;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -35,43 +28,29 @@ import javax.annotation.Resource;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@Controller
-public class TestController {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class RunResponse implements Serializable {
 
-    @Resource
-    JudgeClient judgeClient;
+    private static final long serialVersionUID = -8488342491178821457L;
 
-    @Resource
-    RedisTemplate<String,Object> redisTemplate;
+    private int runId;
 
+    private int result;
 
-    @RequestMapping("/test")
-    @ResponseBody
-    public RedisSubmission test(){
+    private String error;
 
-        RedisSubmission runRequest = new RedisSubmission();
+    private int time;
 
-        runRequest.setLanguage(0);
-        runRequest.setMemory(128);
-        runRequest.setTime(1);
-        runRequest.setProblemId(1000);
-        runRequest.setRunId(1000);
-        runRequest.setSource("#include <stdio.h>\n" +
-                "\n" +
-                "int main()\n" +
-                "{\n" +
-                "    int a,b;\n" +
-                "    while(scanf(\"%d %d\",&a, &b) != EOF){\n" +
-                "    \tprintf(\"%d\\n\",a+b);\n" +
-                "    \tprintf(\"\\n\");\n" +
-                "    }\n" +
-                "    return 0;\n" +
-                "}");
+    private int memory;
 
+    private int sim;
 
-        redisTemplate.opsForList().rightPush("judges",runRequest);
+    private int simSid;
 
+    private double passRate;
 
-        return runRequest;
-    }
 }

@@ -1,8 +1,4 @@
-package software.beans;
-
-import lombok.*;
-
-import java.io.Serializable;
+package cn.edu.nju.software.judger.exception;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -28,29 +24,31 @@ import java.io.Serializable;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class RunResponse implements Serializable {
 
-    private static final long serialVersionUID = -8488342491178821457L;
+/**
+ *
+ * 运行异常
+ */
+public class RuntimeException extends Exception {
 
-    private int runId;
 
-    private int result;
+    public RuntimeException() {
+        super();
+    }
 
-    private String error;
+    public RuntimeException(String message) {
+        super(message);
+    }
 
-    private int time;
+    public RuntimeException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-    private int memory;
+    public RuntimeException(Throwable cause) {
+        super(cause);
+    }
 
-    private int sim;
-
-    private int simSid;
-
-    private double passRate;
-
+    protected RuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

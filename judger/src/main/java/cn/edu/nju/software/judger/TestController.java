@@ -1,4 +1,13 @@
-package software.beans;
+package cn.edu.nju.software.judger;
+
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import cn.edu.nju.software.judger.beans.RedisSubmission;
+import cn.edu.nju.software.judger.core.JudgeClient;
+
+import javax.annotation.Resource;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -24,55 +33,43 @@ package software.beans;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-public enum  ResultCode {
+@Controller
+public class TestController {
+
+    @Resource
+    JudgeClient judgeClient;
+
+    @Resource
+    RedisTemplate<String,Object> redisTemplate;
 
 
-    WT(0,"Waiting","等待"),
-    RJ_WT(1,"Rejudge_Waiting","重判等待中"),
-    CI(2,"Compiling","编译中"),
-    RI(3,"Running","运行中"),
-    AC(4, "Accepted", "正确"),
-    PE(5,"Presentation_Error","格式错误"),
-    WA(6,"Wrong_Answer","答案错误"),
-    TLE(7,"Time_Limit_Exceed","时间超限"),
-    MLE(8,"Memory_Limit_Exceed","内存超限"),
-    OLE(9,"Output_Limit_Exceed","输出超限"),
-    RE(10,"Runtime_Error","运行错误"),
-    CE(11,"Compile_Error","编译错误"),
-    CO(12,"Compile_OK","编译成功");
-    private int code;
+    @RequestMapping("/test")
+    @ResponseBody
+    public RedisSubmission test(){
 
-    private String status;
+        RedisSubmission runRequest = new RedisSubmission();
 
-    private String statusCanonical;
+        runRequest.setLanguage(0);
+        runRequest.setMemory(128);
+        runRequest.setTime(1);
+        runRequest.setProblemId(1000);
+        runRequest.setRunId(1000);
+        runRequest.setSource("#include <stdio.h>\n" +
+                "\n" +
+                "int main()\n" +
+                "{\n" +
+                "    int a,b;\n" +
+                "    while(scanf(\"%d %d\",&a, &b) != EOF){\n" +
+                "    \tprintf(\"%d\\n\",a+b);\n" +
+                "    \tprintf(\"\\n\");\n" +
+                "    }\n" +
+                "    return 0;\n" +
+                "}");
 
 
-    ResultCode(int code, String status, String statusCanonical) {
-        this.code = code;
-        this.status = status;
-        this.statusCanonical = statusCanonical;
+        redisTemplate.opsForList().rightPush("judges",runRequest);
+
+
+        return runRequest;
     }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getStatusCanonical() {
-        return statusCanonical;
-    }
-
-    public void setStatusCanonical(String statusCanonical) {
-        this.statusCanonical = statusCanonical;
-    }}
+}

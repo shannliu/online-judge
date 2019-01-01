@@ -1,17 +1,11 @@
-package software.judger.consumer;
+package cn.edu.nju.software.judger.consumer;
 
 import org.springframework.data.redis.core.RedisTemplate;
-import software.beans.CompileRequest;
-import software.beans.CompileResponse;
-import software.beans.RedisSubmission;
-import software.beans.RunResponse;
-import software.judger.core.JudgeClient;
-import software.judger.utils.SpringContextUtil;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import cn.edu.nju.software.judger.beans.CompileRequest;
+import cn.edu.nju.software.judger.beans.CompileResponse;
+import cn.edu.nju.software.judger.beans.RedisSubmission;
+import cn.edu.nju.software.judger.beans.RunResponse;
+import cn.edu.nju.software.judger.core.JudgeClient;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -63,12 +57,8 @@ public class JudgeThread {
                     try {
 
                         final Object judges = redisTemplate.opsForList().leftPop("judges");
-                        if(judges != null) {
-                            System.out.println(judges);
-                            System.out.println(judges.getClass().toString());
-                        }
-                        if(judges instanceof RedisSubmission){
 
+                        if(judges instanceof RedisSubmission){
 
                             RedisSubmission redisSubmission = (RedisSubmission) judges;
 

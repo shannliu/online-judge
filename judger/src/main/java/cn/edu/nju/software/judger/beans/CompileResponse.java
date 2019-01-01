@@ -1,4 +1,8 @@
-package software.judger.exception;
+package cn.edu.nju.software.judger.beans;
+
+import lombok.*;
+
+import java.io.Serializable;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -24,31 +28,18 @@ package software.judger.exception;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class CompileResponse implements Serializable {
 
-/**
- *
- * 运行异常
- */
-public class RuntimeException extends Exception {
+    private static final long serialVersionUID = -605038415168250777L;
+
+    private boolean success;
+
+    private String error;
 
 
-    public RuntimeException() {
-        super();
-    }
-
-    public RuntimeException(String message) {
-        super(message);
-    }
-
-    public RuntimeException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public RuntimeException(Throwable cause) {
-        super(cause);
-    }
-
-    protected RuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

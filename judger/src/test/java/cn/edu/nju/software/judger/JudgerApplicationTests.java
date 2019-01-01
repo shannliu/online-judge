@@ -1,4 +1,4 @@
-package software.judger;
+package cn.edu.nju.software.judger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

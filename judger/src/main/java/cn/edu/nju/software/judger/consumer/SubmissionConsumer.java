@@ -1,8 +1,11 @@
-package software.beans;
+package cn.edu.nju.software.judger.consumer;
 
-import lombok.*;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+import cn.edu.nju.software.judger.core.JudgeClient;
 
-import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -28,18 +31,32 @@ import java.io.Serializable;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class CompileResponse implements Serializable {
 
-    private static final long serialVersionUID = -605038415168250777L;
+@Component
+public class SubmissionConsumer {
 
-    private boolean success;
+    @Resource
+    RedisTemplate<String,Object> redisTemplate;
 
-    private String error;
+    @Resource
+    JudgeClient judgeClient;
 
+    @PostConstruct
+    public void init(){
+
+        int cpus = Runtime.getRuntime().availableProcessors();
+
+        System.out.println(cpus);
+
+        for(int i = 0 ; i < 4 ; i ++){
+            System.out.println("-----------"+i+"-----------");
+
+
+            JudgeThread judgeThread = new JudgeThread(redisTemplate,judgeClient);
+
+            judgeThread.start();
+
+        }
+    }
 
 }

@@ -1,11 +1,9 @@
-package software.judger.config;
+package cn.edu.nju.software.judger.beans;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.SerializationException;
+import lombok.*;
+import org.springframework.beans.BeanUtils;
 
-import java.nio.charset.Charset;
+import java.io.Serializable;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -31,36 +29,45 @@ import java.nio.charset.Charset;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
-    private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
-    private Class<T> clazz;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class RedisSubmission implements Serializable {
 
-    public FastJsonRedisSerializer(Class<T> clazz) {
-        super();
-        this.clazz = clazz;
+    private int runId;
+
+    private int problemId;
+
+    private int language;
+
+    private int time;
+
+    private int memory;
+
+    private String source;
+
+    private int userId;
+
+
+    public  CompileRequest compileRequest(){
+
+
+        CompileRequest compileRequest = new CompileRequest();
+
+        BeanUtils.copyProperties(this,compileRequest);
+
+
+        return compileRequest;
     }
 
-    @Override
-    public byte[] serialize(T t) throws SerializationException {
-        if (null == t) {
-            return new byte[0];
-        }
-        return JSON.toJSONString(t, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
+    public  RunRequest runRequest(){
+
+        RunRequest runRequest = new RunRequest();
+        BeanUtils.copyProperties(this,runRequest);
+
+        return runRequest;
     }
 
-    @Override
-    public T deserialize(byte[] bytes) throws SerializationException {
-        if (null == bytes || bytes.length <= 0) {
-            return null;
-        }
-        String str = new String(bytes, DEFAULT_CHARSET);
-        System.out.println(str);
-        try {
-            T res = (T) JSON.parseObject(str, clazz);
-            return res;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

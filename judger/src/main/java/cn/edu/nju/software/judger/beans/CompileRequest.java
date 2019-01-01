@@ -1,4 +1,4 @@
-package software.beans;
+package cn.edu.nju.software.judger.beans;
 
 import lombok.*;
 
