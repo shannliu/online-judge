@@ -1,11 +1,17 @@
 package cn.edu.nju.software.judger.consumer;
 
+import cn.edu.nju.software.judge.dao.SubmissionMapper;
+import cn.edu.nju.software.judge.model.SubmissionModel;
+import cn.edu.nju.software.judge.service.submission.SubmissionService;
+import cn.edu.nju.software.judge.submission.ResultCode;
 import org.springframework.data.redis.core.RedisTemplate;
-import cn.edu.nju.software.judger.beans.CompileRequest;
-import cn.edu.nju.software.judger.beans.CompileResponse;
-import cn.edu.nju.software.judger.beans.RedisSubmission;
-import cn.edu.nju.software.judger.beans.RunResponse;
+import cn.edu.nju.software.judge.submission.CompileResponse;
+import cn.edu.nju.software.judge.submission.RedisSubmission;
+import cn.edu.nju.software.judge.submission.RunResponse;
 import cn.edu.nju.software.judger.core.JudgeClient;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -40,19 +46,19 @@ public class JudgeThread {
 
     Thread thread;
 
-    public JudgeThread(RedisTemplate<String,Object> redisTemplate, JudgeClient judgeClient) {
+    private SubmissionService submissionService;
+
+    public JudgeThread(RedisTemplate<String,Object> redisTemplate, JudgeClient judgeClient, SubmissionService submissionService) {
         this.redisTemplate = redisTemplate;
         this.judgeClient = judgeClient;
+        this.submissionService = submissionService;
     }
 
     private boolean stop = false;
 
 
     public void start() {
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
+        thread = new Thread(() -> {
                 while(!stop){
                     try {
 
@@ -66,14 +72,22 @@ public class JudgeThread {
 
                             System.out.println(compile);
 
-                            if(compile.isSuccess()){
+                            SubmissionModel model = new SubmissionModel();
+                            model.setSubmissionId(redisSubmission.getRunId());
 
+                            if(!compile.isSuccess()) {
+                                //编译错误
+                                model.setResult(ResultCode.CE.getCode());
+                                model.setJudgeTime(LocalDateTime.now());
+
+                            }else{
+                                //run
                                 RunResponse run = judgeClient.run(redisSubmission.runRequest());
 
                                 System.out.println(run);
+
                             }
-
-
+                            submissionService.updateSubmissionSelective(model);
                         }
 
                     } catch (Exception e) {
@@ -84,9 +98,6 @@ public class JudgeThread {
                     }
                 }
                 //如果被标记停止执行，则将阻塞队列中的所有值清空
-
-
-            }
         });
 
         thread.setDaemon(true);

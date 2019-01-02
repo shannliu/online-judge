@@ -1,5 +1,6 @@
 package cn.edu.nju.software.judger.consumer;
 
+import cn.edu.nju.software.judge.service.submission.SubmissionService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import cn.edu.nju.software.judger.core.JudgeClient;
@@ -41,6 +42,9 @@ public class SubmissionConsumer {
     @Resource
     JudgeClient judgeClient;
 
+    @Resource
+    SubmissionService submissionService;
+
     @PostConstruct
     public void init(){
 
@@ -52,7 +56,7 @@ public class SubmissionConsumer {
             System.out.println("-----------"+i+"-----------");
 
 
-            JudgeThread judgeThread = new JudgeThread(redisTemplate,judgeClient);
+            JudgeThread judgeThread = new JudgeThread(redisTemplate,judgeClient,submissionService);
 
             judgeThread.start();
 

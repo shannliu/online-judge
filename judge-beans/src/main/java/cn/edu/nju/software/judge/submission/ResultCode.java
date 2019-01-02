@@ -1,8 +1,4 @@
-package cn.edu.nju.software.judger.beans;
-
-import lombok.*;
-
-import java.io.Serializable;
+package cn.edu.nju.software.judge.submission;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -28,29 +24,56 @@ import java.io.Serializable;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class RunResponse implements Serializable {
+public enum  ResultCode {
 
-    private static final long serialVersionUID = -8488342491178821457L;
 
-    private int runId;
+    WT((short)0,"Waiting","等待"),
+    RJ_WT((short)1,"Rejudge_Waiting","重判等待中"),
+    CI((short)2,"Compiling","编译中"),
+    RI((short)3,"Running","运行中"),
+    AC((short)4, "Accepted", "正确"),
+    PE((short)5,"Presentation_Error","格式错误"),
+    WA((short)6,"Wrong_Answer","答案错误"),
+    TLE((short)7,"Time_Limit_Exceed","时间超限"),
+    MLE((short)8,"Memory_Limit_Exceed","内存超限"),
+    OLE((short)9,"Output_Limit_Exceed","输出超限"),
+    RE((short)10,"Runtime_Error","运行错误"),
+    CE((short)11,"Compile_Error","编译错误"),
+    CO((short)12,"Compile_OK","编译成功");
 
-    private int result;
+    private short code;
 
-    private String error;
+    private String status;
 
-    private int time;
+    private String statusCanonical;
 
-    private int memory;
 
-    private int sim;
+    ResultCode(short code, String status, String statusCanonical) {
+        this.code = code;
+        this.status = status;
+        this.statusCanonical = statusCanonical;
+    }
 
-    private int simSid;
+    public short getCode() {
+        return code;
+    }
 
-    private double passRate;
+    public void setCode(short code) {
+        this.code = code;
+    }
 
-}
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatusCanonical() {
+        return statusCanonical;
+    }
+
+    public void setStatusCanonical(String statusCanonical) {
+        this.statusCanonical = statusCanonical;
+    }}

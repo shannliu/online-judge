@@ -4,7 +4,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import cn.edu.nju.software.judger.beans.RedisSubmission;
+import cn.edu.nju.software.judge.submission.RedisSubmission;
 import cn.edu.nju.software.judger.core.JudgeClient;
 
 import javax.annotation.Resource;

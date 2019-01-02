@@ -16,7 +16,7 @@
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>judger</module>
+        <!--<module>judger</module>-->
         <module>judge-beans</module>
         <module>judge-backend</module>
         <module>judge-core</module>

@@ -3,6 +3,7 @@ package cn.edu.nju.software.judge;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,6 +13,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
 @EnableTransactionManagement
+@EnableAspectJAutoProxy
 public class JudgeBackendApplication {
 
 	public static void main(String[] args) {

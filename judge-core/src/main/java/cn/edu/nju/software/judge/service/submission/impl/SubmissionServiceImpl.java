@@ -4,6 +4,9 @@ import cn.edu.nju.software.judge.beans.Submission;
 import cn.edu.nju.software.judge.dao.SubmissionMapper;
 import cn.edu.nju.software.judge.model.SubmissionModel;
 import cn.edu.nju.software.judge.service.submission.SubmissionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,8 @@ import javax.annotation.Resource;
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SubmissionServiceImpl.class);
+
     @Resource
     private SubmissionMapper submissionMapper;
 
@@ -47,11 +52,37 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     @Transactional
     public SubmissionModel addSubmission(SubmissionModel submissionModel) {
-        Submission submission = submissionModel.submission();
-        submissionMapper.insert(submission);
+        try {
+            Submission submission = submissionModel.submission();
+            submissionMapper.insert(submission);
+            return PO2Model(submissionModel,submission);
+        }catch (Exception e){
+            LOG.error("addSubmission fail",e);
+            throw e;
+        }
+    }
 
-        Integer submissionId = submission.getSubmissionId();
+    @Override
+    @Transactional
+    public void updateSubmissionSelective(SubmissionModel submissionModel) {
+        try {
+            Submission submission = submissionModel.submission();
+            submissionMapper.updateByPrimaryKeySelective(submission);
+        }catch (Exception e){
+            LOG.error("updateSubmissionSelective fail",e);
+            throw e;
+        }
+    }
 
-        return null;
+    private SubmissionModel PO2Model( SubmissionModel submissionModel, Submission submission){
+        BeanUtils.copyProperties(submission,submissionModel);
+        return submissionModel;
+    }
+    private SubmissionModel PO2Model(Submission submission){
+
+        SubmissionModel submissionModel = new SubmissionModel();
+        BeanUtils.copyProperties(submission,submissionModel);
+
+        return submissionModel;
     }
 }

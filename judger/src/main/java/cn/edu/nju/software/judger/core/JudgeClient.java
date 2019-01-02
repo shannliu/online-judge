@@ -6,10 +6,10 @@ import io.grpc.StatusRuntimeException;
 import judge.JudgeGrpc;
 import judge.JudgeOuterClass;
 import org.springframework.beans.BeanUtils;
-import cn.edu.nju.software.judger.beans.CompileRequest;
-import cn.edu.nju.software.judger.beans.CompileResponse;
-import cn.edu.nju.software.judger.beans.RunRequest;
-import cn.edu.nju.software.judger.beans.RunResponse;
+import cn.edu.nju.software.judge.submission.CompileRequest;
+import cn.edu.nju.software.judge.submission.CompileResponse;
+import cn.edu.nju.software.judge.submission.RunRequest;
+import cn.edu.nju.software.judge.submission.RunResponse;
 
 /**
  * ////////////////////////////////////////////////////////////////////

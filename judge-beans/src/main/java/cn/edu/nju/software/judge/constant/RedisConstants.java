@@ -1,9 +1,4 @@
-package cn.edu.nju.software.judger.beans;
-
-import lombok.*;
-import org.springframework.beans.BeanUtils;
-
-import java.io.Serializable;
+package cn.edu.nju.software.judge.constant;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -29,45 +24,8 @@ import java.io.Serializable;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class RedisSubmission implements Serializable {
-
-    private int runId;
-
-    private int problemId;
-
-    private int language;
-
-    private int time;
-
-    private int memory;
-
-    private String source;
-
-    private int userId;
+public class RedisConstants {
 
 
-    public  CompileRequest compileRequest(){
-
-
-        CompileRequest compileRequest = new CompileRequest();
-
-        BeanUtils.copyProperties(this,compileRequest);
-
-
-        return compileRequest;
-    }
-
-    public  RunRequest runRequest(){
-
-        RunRequest runRequest = new RunRequest();
-        BeanUtils.copyProperties(this,runRequest);
-
-        return runRequest;
-    }
-
+    public static final String JUDGE_LIST_KEY = "judges";
 }

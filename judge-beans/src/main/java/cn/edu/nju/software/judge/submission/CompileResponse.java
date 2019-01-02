@@ -1,6 +1,8 @@
-package cn.edu.nju.software.judge.service.submission;
+package cn.edu.nju.software.judge.submission;
 
-import cn.edu.nju.software.judge.model.SubmissionModel;
+import lombok.*;
+
+import java.io.Serializable;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -26,10 +28,18 @@ import cn.edu.nju.software.judge.model.SubmissionModel;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-public interface SubmissionService {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class CompileResponse implements Serializable {
 
-    SubmissionModel addSubmission(SubmissionModel submissionModel);
+    private static final long serialVersionUID = -605038415168250777L;
+
+    private boolean success;
+
+    private String error;
 
 
-    void updateSubmissionSelective(SubmissionModel submissionModel);
 }

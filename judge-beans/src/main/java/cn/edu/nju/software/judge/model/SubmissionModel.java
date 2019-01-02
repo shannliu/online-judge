@@ -87,6 +87,8 @@ public class SubmissionModel implements Serializable {
 
     private Integer del;
 
+    private String source;
+
 
     public Submission submission(){
 

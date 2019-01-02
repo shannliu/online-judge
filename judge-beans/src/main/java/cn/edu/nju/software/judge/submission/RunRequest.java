@@ -1,4 +1,4 @@
-package cn.edu.nju.software.judger.beans;
+package cn.edu.nju.software.judge.submission;
 
 import lombok.*;
 
@@ -33,16 +33,21 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class CompileRequest implements Serializable {
+public class RunRequest implements Serializable {
 
+    private static final long serialVersionUID = 870094389498874388L;
 
-    private static final long serialVersionUID = 4604390245677125342L;
+    private int runId;
 
-    private String source;
+    private int problemId;
 
     private int language;
 
-    private int runId;
+    private int time;
+
+    private int memory;
+
+    private boolean sim;
 
 
 }
