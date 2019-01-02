@@ -1,17 +1,22 @@
 package cn.edu.nju.software.judger.consumer;
 
-import cn.edu.nju.software.judge.dao.SubmissionMapper;
+import cn.edu.nju.software.judge.model.CompileinfoModel;
+import cn.edu.nju.software.judge.model.RuntimeinfoModel;
 import cn.edu.nju.software.judge.model.SubmissionModel;
+import cn.edu.nju.software.judge.service.submission.CompileinfoService;
+import cn.edu.nju.software.judge.service.submission.RuntimeinfoService;
 import cn.edu.nju.software.judge.service.submission.SubmissionService;
 import cn.edu.nju.software.judge.submission.ResultCode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import cn.edu.nju.software.judge.submission.CompileResponse;
 import cn.edu.nju.software.judge.submission.RedisSubmission;
 import cn.edu.nju.software.judge.submission.RunResponse;
 import cn.edu.nju.software.judger.core.JudgeClient;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -48,10 +53,16 @@ public class JudgeThread {
 
     private SubmissionService submissionService;
 
-    public JudgeThread(RedisTemplate<String,Object> redisTemplate, JudgeClient judgeClient, SubmissionService submissionService) {
+    private CompileinfoService compileinfoService;
+
+    private RuntimeinfoService runtimeinfoService;
+
+    public JudgeThread(RedisTemplate<String,Object> redisTemplate, JudgeClient judgeClient, SubmissionService submissionService,CompileinfoService compileinfoService,RuntimeinfoService runtimeinfoService) {
         this.redisTemplate = redisTemplate;
         this.judgeClient = judgeClient;
         this.submissionService = submissionService;
+        this.compileinfoService = compileinfoService;
+        this.runtimeinfoService = runtimeinfoService;
     }
 
     private boolean stop = false;
@@ -62,7 +73,7 @@ public class JudgeThread {
                 while(!stop){
                     try {
 
-                        final Object judges = redisTemplate.opsForList().leftPop("judges");
+                        final Object judges = redisTemplate.opsForList().leftPop("judges",10, TimeUnit.SECONDS);
 
                         if(judges instanceof RedisSubmission){
 
@@ -73,18 +84,46 @@ public class JudgeThread {
                             System.out.println(compile);
 
                             SubmissionModel model = new SubmissionModel();
-                            model.setSubmissionId(redisSubmission.getRunId());
+
+                            Integer submissionId = redisSubmission.getRunId();
+                            model.setSubmissionId(submissionId);
 
                             if(!compile.isSuccess()) {
                                 //编译错误
                                 model.setResult(ResultCode.CE.getCode());
                                 model.setJudgeTime(LocalDateTime.now());
+                                model.setJudger("local");
+
+
+                                //记录编译错误信息
+                                CompileinfoModel compileinfoModel = new CompileinfoModel();
+                                compileinfoModel.setSubmissionId(submissionId);
+                                compileinfoModel.setError(compile.getError());
+                                compileinfoService.insert(compileinfoModel);
 
                             }else{
                                 //run
                                 RunResponse run = judgeClient.run(redisSubmission.runRequest());
 
-                                System.out.println(run);
+                                final short result = (short)run.getResult();
+
+                                model.setResult(result);
+
+                                model.setJudgeTime(LocalDateTime.now());
+                                model.setJudger("local");
+                                model.setMemory(run.getMemory());
+                                model.setTime(run.getTime());
+                                model.setPassRate(new BigDecimal(run.getPassRate()));
+
+                                String error = run.getError();
+
+                                if(StringUtils.isNotEmpty(error)){
+                                    //记录运行时错误
+                                    RuntimeinfoModel runtimeinfoModel = new RuntimeinfoModel();
+                                    runtimeinfoModel.setError(run.getError());
+                                    runtimeinfoModel.setSubmissionId(submissionId);
+                                    runtimeinfoService.insert(runtimeinfoModel);
+                                }
 
                             }
                             submissionService.updateSubmissionSelective(model);

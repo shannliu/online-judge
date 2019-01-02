@@ -1,6 +1,8 @@
 package cn.edu.nju.software.judge.service.submission.impl;
 
 import cn.edu.nju.software.judge.beans.Submission;
+import cn.edu.nju.software.judge.beans.SubmissionCode;
+import cn.edu.nju.software.judge.dao.SubmissionCodeMapper;
 import cn.edu.nju.software.judge.dao.SubmissionMapper;
 import cn.edu.nju.software.judge.model.SubmissionModel;
 import cn.edu.nju.software.judge.service.submission.SubmissionService;
@@ -46,7 +48,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     private SubmissionMapper submissionMapper;
 
     @Resource
-    private RedisTemplate redisTemplate;
+    private SubmissionCodeMapper submissionCodeMapper;
 
 
     @Override
@@ -55,6 +57,12 @@ public class SubmissionServiceImpl implements SubmissionService {
         try {
             Submission submission = submissionModel.submission();
             submissionMapper.insert(submission);
+
+            SubmissionCode submissionCode = new SubmissionCode();
+            submissionCode.setSubmissionId(submission.getSubmissionId());
+            submissionCode.setSource(submissionModel.getSource());
+            submissionCodeMapper.insert(submissionCode);
+
             return PO2Model(submissionModel,submission);
         }catch (Exception e){
             LOG.error("addSubmission fail",e);

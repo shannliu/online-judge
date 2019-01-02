@@ -1,4 +1,4 @@
-package cn.edu.nju.software.judger;
+package cn.edu.nju.software;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;

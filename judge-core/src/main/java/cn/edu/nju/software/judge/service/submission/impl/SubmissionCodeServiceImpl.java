@@ -1,13 +1,13 @@
-package cn.edu.nju.software.judger.consumer;
+package cn.edu.nju.software.judge.service.submission.impl;
 
-import cn.edu.nju.software.judge.service.submission.CompileinfoService;
-import cn.edu.nju.software.judge.service.submission.RuntimeinfoService;
-import cn.edu.nju.software.judge.service.submission.SubmissionService;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
-import cn.edu.nju.software.judger.core.JudgeClient;
+import cn.edu.nju.software.judge.beans.SubmissionCode;
+import cn.edu.nju.software.judge.dao.SubmissionCodeMapper;
+import cn.edu.nju.software.judge.model.SubmissionCodeModel;
+import cn.edu.nju.software.judge.service.submission.SubmissionCodeService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -34,41 +34,18 @@ import javax.annotation.Resource;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
+@Service
+public class SubmissionCodeServiceImpl implements SubmissionCodeService {
 
-@Component
-public class SubmissionConsumer {
 
     @Resource
-    RedisTemplate<String,Object> redisTemplate;
-
-    @Resource
-    JudgeClient judgeClient;
-
-    @Resource
-    SubmissionService submissionService;
-
-    @Resource
-    CompileinfoService compileinfoService;
-
-    @Resource
-    RuntimeinfoService runtimeinfoService;
-
-    @PostConstruct
-    public void init(){
-
-        int cpus = Runtime.getRuntime().availableProcessors();
-
-        System.out.println(cpus);
-
-        for(int i = 0 ; i < 1 ; i ++){
-            System.out.println("-----------"+i+"-----------");
+    private SubmissionCodeMapper submissionCodeMapper;
 
 
-            JudgeThread judgeThread = new JudgeThread(redisTemplate,judgeClient,submissionService,compileinfoService,runtimeinfoService);
-
-            judgeThread.start();
-
-        }
+    @Override
+    @Transactional
+    public void insert(SubmissionCodeModel submissionCodeModel) {
+        Assert.notNull(submissionCodeModel.getSubmissionId(),"submissionId not null");
+        submissionCodeMapper.insert(submissionCodeModel.submissionCode());
     }
-
 }

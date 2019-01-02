@@ -1,13 +1,13 @@
-package cn.edu.nju.software.judger.consumer;
+package cn.edu.nju.software.judge.service.submission.impl;
 
+import cn.edu.nju.software.judge.beans.Compileinfo;
+import cn.edu.nju.software.judge.dao.CompileinfoMapper;
+import cn.edu.nju.software.judge.model.CompileinfoModel;
 import cn.edu.nju.software.judge.service.submission.CompileinfoService;
-import cn.edu.nju.software.judge.service.submission.RuntimeinfoService;
-import cn.edu.nju.software.judge.service.submission.SubmissionService;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
-import cn.edu.nju.software.judger.core.JudgeClient;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -34,41 +34,18 @@ import javax.annotation.Resource;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-
-@Component
-public class SubmissionConsumer {
-
-    @Resource
-    RedisTemplate<String,Object> redisTemplate;
+@Service
+public class CompileinfoServiceImpl implements CompileinfoService {
 
     @Resource
-    JudgeClient judgeClient;
-
-    @Resource
-    SubmissionService submissionService;
-
-    @Resource
-    CompileinfoService compileinfoService;
-
-    @Resource
-    RuntimeinfoService runtimeinfoService;
-
-    @PostConstruct
-    public void init(){
-
-        int cpus = Runtime.getRuntime().availableProcessors();
-
-        System.out.println(cpus);
-
-        for(int i = 0 ; i < 1 ; i ++){
-            System.out.println("-----------"+i+"-----------");
+    private CompileinfoMapper compileinfoMapper;
 
 
-            JudgeThread judgeThread = new JudgeThread(redisTemplate,judgeClient,submissionService,compileinfoService,runtimeinfoService);
-
-            judgeThread.start();
-
-        }
+    @Override
+    @Transactional
+    public void insert(CompileinfoModel compileinfoModel) {
+        Assert.notNull(compileinfoModel.getSubmissionId(),"submissionId not null");
+        Compileinfo compileinfo = compileinfoModel.compileinfo();
+        compileinfoMapper.insert(compileinfo);
     }
-
 }
