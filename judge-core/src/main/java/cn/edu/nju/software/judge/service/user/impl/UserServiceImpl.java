@@ -1,6 +1,10 @@
 package cn.edu.nju.software.judge.service.user.impl;
 
+import cn.edu.nju.software.judge.beans.User;
+import cn.edu.nju.software.judge.dao.UserMapper;
+import cn.edu.nju.software.judge.model.UserModel;
 import cn.edu.nju.software.judge.service.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,4 +35,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+    @Autowired
+    UserMapper userMapper;
+    public boolean loginIn(UserModel model){
+        String name = model.getUser();
+        String password = model.getPassword();
+        //先验证用户名是否存在
+        String nameResult = userMapper.findUsername(name);
+        if (nameResult == null){
+            return false;
+        }else {
+            //若存在验证和密码是否匹配 匹配返回true 否则返回false
+            User user = userMapper.findUser(name);
+            return password.equals(user.getPassword());
+        }
+    }
 }

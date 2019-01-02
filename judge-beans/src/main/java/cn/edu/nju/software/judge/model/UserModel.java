@@ -1,5 +1,9 @@
 package cn.edu.nju.software.judge.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * ////////////////////////////////////////////////////////////////////
  * //                          _ooOoo_                               //
@@ -24,5 +28,10 @@ package cn.edu.nju.software.judge.model;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserModel {
+    private String user;
+    private String password;
 }

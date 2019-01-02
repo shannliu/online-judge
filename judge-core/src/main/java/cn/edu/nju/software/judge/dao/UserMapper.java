@@ -3,6 +3,8 @@ package cn.edu.nju.software.judge.dao;
 import cn.edu.nju.software.judge.beans.User;
 import cn.edu.nju.software.judge.beans.UserExample;
 import java.util.List;
+
+import cn.edu.nju.software.judge.model.UserModel;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
@@ -93,4 +95,6 @@ public interface UserMapper {
      * @mbg.generated Sat Dec 22 11:39:09 CST 2018
      */
     int updateByPrimaryKey(User record);
+    String findUsername(@Param("user_name")String name);
+    User findUser(@Param("user_name")String name);
 }
