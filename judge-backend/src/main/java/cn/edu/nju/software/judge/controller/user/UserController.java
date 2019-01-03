@@ -1,13 +1,11 @@
 package cn.edu.nju.software.judge.controller.user;
 
+import cn.edu.nju.software.judge.beans.User;
 import cn.edu.nju.software.judge.model.UserModel;
 import cn.edu.nju.software.judge.service.user.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,5 +61,12 @@ public class UserController {
         session.removeAttribute("user");
         request.getSession().invalidate();
         return true;
+    }
+
+    @PostMapping("register.do")
+    public String register(HttpServletRequest request, HttpServletResponse response,
+                            @RequestBody UserModel model){
+        String result = userService.register(model);
+        return result;
     }
 }
