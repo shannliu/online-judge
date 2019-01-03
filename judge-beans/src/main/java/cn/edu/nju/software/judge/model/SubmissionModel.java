@@ -67,8 +67,6 @@ public class SubmissionModel implements Serializable {
 
     private String dispLanguage;
 
-    private String username;
-
     private String statusCanonical;
 
     private Integer sourceLength;

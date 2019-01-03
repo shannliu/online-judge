@@ -20,7 +20,6 @@
     <result column="language" jdbcType="INTEGER" property="language" />
     <result column="open" jdbcType="SMALLINT" property="open" />
     <result column="disp_language" jdbcType="VARCHAR" property="dispLanguage" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="status_canonical" jdbcType="VARCHAR" property="statusCanonical" />
     <result column="source_length" jdbcType="INTEGER" property="sourceLength" />
     <result column="valid" jdbcType="TINYINT" property="valid" />
@@ -106,7 +105,7 @@
       This element was generated on Sat Dec 22 11:39:09 CST 2018.
     -->
     submission_id, problem_id, contest_id, contest_num, user_id, user_name, result, time, 
-    memory, submit_time, language, open, disp_language, username, status_canonical, source_length, 
+    memory, submit_time, language, open, disp_language, status_canonical, source_length,
     valid, judge_time, pass_rate, judger, add_datetime, update_datetime, del
   </sql>
   <select id="selectByExample" parameterType="cn.edu.nju.software.judge.beans.SubmissionExample" resultMap="BaseResultMap">
@@ -169,7 +168,7 @@
       contest_num, user_id, user_name, 
       result, time, memory, 
       submit_time, language, open, 
-      disp_language, username, status_canonical, 
+      disp_language, status_canonical,
       source_length, valid, judge_time, 
       pass_rate, judger, add_datetime, 
       update_datetime, del)
@@ -177,7 +176,7 @@
       #{contestNum,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
       #{result,jdbcType=SMALLINT}, #{time,jdbcType=INTEGER}, #{memory,jdbcType=INTEGER}, 
       #{submitTime,jdbcType=TIMESTAMP}, #{language,jdbcType=INTEGER}, #{open,jdbcType=SMALLINT}, 
-      #{dispLanguage,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{statusCanonical,jdbcType=VARCHAR}, 
+      #{dispLanguage,jdbcType=VARCHAR}, #{statusCanonical,jdbcType=VARCHAR},
       #{sourceLength,jdbcType=INTEGER}, #{valid,jdbcType=TINYINT}, #{judgeTime,jdbcType=TIMESTAMP}, 
       #{passRate,jdbcType=DECIMAL}, #{judger,jdbcType=CHAR}, #{addDatetime,jdbcType=TIMESTAMP}, 
       #{updateDatetime,jdbcType=TIMESTAMP}, #{del,jdbcType=INTEGER})
@@ -228,9 +227,6 @@
       </if>
       <if test="dispLanguage != null">
         disp_language,
-      </if>
-      <if test="username != null">
-        username,
       </if>
       <if test="statusCanonical != null">
         status_canonical,
@@ -299,9 +295,6 @@
       </if>
       <if test="dispLanguage != null">
         #{dispLanguage,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
       </if>
       <if test="statusCanonical != null">
         #{statusCanonical,jdbcType=VARCHAR},
@@ -390,9 +383,6 @@
       <if test="record.dispLanguage != null">
         disp_language = #{record.dispLanguage,jdbcType=VARCHAR},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
       <if test="record.statusCanonical != null">
         status_canonical = #{record.statusCanonical,jdbcType=VARCHAR},
       </if>
@@ -445,7 +435,6 @@
       language = #{record.language,jdbcType=INTEGER},
       open = #{record.open,jdbcType=SMALLINT},
       disp_language = #{record.dispLanguage,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
       status_canonical = #{record.statusCanonical,jdbcType=VARCHAR},
       source_length = #{record.sourceLength,jdbcType=INTEGER},
       valid = #{record.valid,jdbcType=TINYINT},
@@ -503,9 +492,6 @@
       <if test="dispLanguage != null">
         disp_language = #{dispLanguage,jdbcType=VARCHAR},
       </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
       <if test="statusCanonical != null">
         status_canonical = #{statusCanonical,jdbcType=VARCHAR},
       </if>
@@ -555,7 +541,6 @@
       language = #{language,jdbcType=INTEGER},
       open = #{open,jdbcType=SMALLINT},
       disp_language = #{dispLanguage,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
       status_canonical = #{statusCanonical,jdbcType=VARCHAR},
       source_length = #{sourceLength,jdbcType=INTEGER},
       valid = #{valid,jdbcType=TINYINT},
