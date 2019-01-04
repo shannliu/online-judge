@@ -12,6 +12,8 @@ message CompileRequest {
     int32 language = 1;
     int32 runId = 2;
     string source = 3;
+    int32 type = 19;
+    int32 problemId = 20;
 }
 
 message CompileResponse {

@@ -73,6 +73,8 @@ public class SubmissionModel implements Serializable {
 
     private Byte valid;
 
+    private Byte judgeType;
+
     private LocalDateTime judgeTime;
 
     private BigDecimal passRate;

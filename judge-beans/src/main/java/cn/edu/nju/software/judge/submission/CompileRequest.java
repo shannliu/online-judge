@@ -44,5 +44,7 @@ public class CompileRequest implements Serializable {
 
     private int runId;
 
+    private int type = 1;
 
+    private int problemId;
 }

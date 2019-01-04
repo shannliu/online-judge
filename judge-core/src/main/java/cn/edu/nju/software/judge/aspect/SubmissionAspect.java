@@ -64,6 +64,7 @@ public class SubmissionAspect {
                 redisSubmission.setRunId(model.getSubmissionId());
                 redisSubmission.setUserId(model.getUserId());
                 redisSubmission.setSource(model.getSource());
+                redisSubmission.setType(model.getJudgeType());
 
                 redisTemplate.opsForList().rightPush(RedisConstants.JUDGE_LIST_KEY,redisSubmission);
             }

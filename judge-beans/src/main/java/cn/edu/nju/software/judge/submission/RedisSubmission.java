@@ -50,6 +50,8 @@ public class RedisSubmission implements Serializable {
 
     private int userId;
 
+    private int type = 1;
+
 
     public  CompileRequest compileRequest(){
 
