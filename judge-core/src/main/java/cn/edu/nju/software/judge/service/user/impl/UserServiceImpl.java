@@ -50,4 +50,29 @@ public class UserServiceImpl implements UserService {
             return password.equals(user.getPassword());
         }
     }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
+    @Override
+    public String register(UserModel model){
+        String username = model.getUser();
+        User exist = userMapper.findUser(username);
+        if (exist != null){
+            return "This UserName is already exist!";
+        }else {
+            User temp = new User();
+            temp.setUserName(model.getUser());
+            temp.setPassword(model.getPassword());
+            temp.setEmail(model.getEmail());
+            Integer result = userMapper.insert(temp);
+            if (result==null){
+                return "Register fail!";
+            }
+        }
+        return "Success";
+    }
+
 }

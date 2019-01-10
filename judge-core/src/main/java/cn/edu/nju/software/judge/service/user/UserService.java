@@ -28,4 +28,5 @@ import cn.edu.nju.software.judge.model.UserModel;
  */
 public interface UserService {
     boolean loginIn(UserModel model);
+    String register(UserModel model);
 }
