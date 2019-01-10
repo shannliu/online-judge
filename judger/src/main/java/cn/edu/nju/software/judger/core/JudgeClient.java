@@ -87,7 +87,6 @@ public class JudgeClient  {
 
             response = blockingStub.run(request);
 
-
             RunResponse runResponse = new RunResponse();
 
             BeanUtils.copyProperties(response,runResponse);

@@ -1,8 +1,4 @@
-package cn.edu.nju.software.judge.submission;
-
-import lombok.*;
-
-import java.io.Serializable;
+package cn.edu.nju.software.judger.source;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -28,22 +24,10 @@ import java.io.Serializable;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class CompileRequest implements Serializable {
+public class Main {
 
-    private static final long serialVersionUID = 4604390245677125342L;
+    public static void main(String[] args) {
 
-    private String source;
 
-    private int language;
-
-    private int runId;
-
-    private int type = 1;
-
-    private int problemId;
+    }
 }

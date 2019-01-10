@@ -84,17 +84,47 @@ public class SubmissionController {
 
         submissionModel.setUserName("刘孝敬");
         submissionModel.setUserId(1);
-        submissionModel.setSource("\n" +
-                "int calAplusB(int a,int b){\n" +
-                "\treturn a+b+a;\n" +
-                "}");
+        submissionModel.setSource("#include<stdio.h>\n" +
+                "#include<string.h>\n" +
+                "int main()\n" +
+                "{\n" +
+                "       int b[150],i,j,t,n,q,num,sum,z=1;\n" +
+                "       char a[150];\n" +
+                "       while(scanf(\"%d%*c\",&n)!=EOF || 1 == 1)\n" +
+                "       {\n" +
+                "           num=0;\n" +
+                "           sum=0;\n" +
+                "           while(n--)\n" +
+                "           {\n" +
+                "               q=0;\n" +
+                "               sum=0;\n" +
+                "               for(i=0;i<150;i++)\n" +
+                "                b[i]=0;\n" +
+                "               scanf(\"%s\",a);\n" +
+                "               for(i=0;i<strlen(a);i++)\n" +
+                "               b[a[i]]++;\n" +
+                "               for(i=0;i<123;i++)\n" +
+                "                if(b[i]>0)\n" +
+                "                sum++;\n" +
+                "                if(sum==1)\n" +
+                "                    q=1;\n" +
+                "               for(i=65;i<123;i++)\n" +
+                "               for(j=65;j<123;j++)\n" +
+                "                   if(b[i]==b[j]&&i!=j&&b[i]!=0&&b[j]!=0)\n" +
+                "                    {q=1;break;}\n" +
+                "              if(q==0)\n" +
+                "                num++;\n" +
+                "           }\n" +
+                "           printf(\"Case %d: %d\\n\",z++,num);\n" +
+                "       }\n" +
+                "}\n");
         submissionModel.setSourceLength(submissionModel.getSource().length());
         submissionModel.setTime(1);
         submissionModel.setMemory(1000);
         submissionModel.setLanguage(0);
         submissionModel.setDispLanguage("C");
-        submissionModel.setProblemId(1000);
-        submissionModel.setJudgeType((byte)2);
+        submissionModel.setProblemId(5868);
+        submissionModel.setJudgeType((byte)1);
 
         System.out.println(JSON.toJSONString(submissionModel));
 

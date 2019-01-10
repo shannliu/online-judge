@@ -126,13 +126,12 @@ public class JudgeThread {
                                 }
 
                             }
+                            //设置状态
+                            model.setStatusCanonical(ResultCode.getStatusByCode(model.getResult()));
                             submissionService.updateSubmissionSelective(model);
                         }
 
                     } catch (Exception e) {
-                        if(stop){
-
-                        }
 
                     }
                 }

@@ -1,8 +1,6 @@
-package cn.edu.nju.software.judge.submission;
+package cn.edu.nju.software.judge.controller.problem;
 
-import lombok.*;
-
-import java.io.Serializable;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -27,23 +25,12 @@ import java.io.Serializable;
  * //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
+ *
+ * 测试数据有关的接口
+ *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class CompileRequest implements Serializable {
+@RestController
+public class TestCaseController {
 
-    private static final long serialVersionUID = 4604390245677125342L;
 
-    private String source;
-
-    private int language;
-
-    private int runId;
-
-    private int type = 1;
-
-    private int problemId;
 }
