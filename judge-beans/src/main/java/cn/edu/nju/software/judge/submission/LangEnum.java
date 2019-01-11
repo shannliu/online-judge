@@ -1,16 +1,4 @@
-package cn.edu.nju.software.judge.controller.problem;
-
-import cn.edu.nju.software.judge.model.ProblemModel;
-import cn.edu.nju.software.judge.service.problem.ProblemService;
-import cn.edu.nju.software.judge.vo.Result;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+package cn.edu.nju.software.judge.submission;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -36,21 +24,65 @@ import javax.servlet.http.HttpServletResponse;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@RestController
-@RequestMapping("/problem")
-public class ProblemController {
+public enum  LangEnum {
 
-    @Resource
-    private ProblemService problemService;
 
-    @GetMapping("/detail")
-    public Result detail(final Integer problemId){
+    C(0,"C"),
+    CPP(1,"C++"),
+    Pascal(2,"Pascal"),
+    Java(3,"Java"),
+    Ruby(4,"Ruby"),
+    Bash(5,"Bash"),
+    Python(6,"Python"),
+    PHP(7,"PHP"),
+    Perl(8,"Perl"),
+    CSharp(9,"C#"),
+    ObjC(10,"Obj-C"),
+    FreeBasic(11,"FreeBasic"),
+    Scheme(12,"Scheme"),
+    Clang(13,"Clang"),
+    ClangPP(14,"Clang++"),
+    Lua(15,"Lua"),
+    JavaScript(16,"JavaScript"),
+    Go(17,"Go");
 
-        final ProblemModel problemModel = problemService.getByProblemId(problemId);
 
-        if(null == problemModel){
-            return Result.failure("问题不存在");
-        }
-        return Result.success(problemModel);
+    LangEnum(int language, String dispLanguage) {
+        this.language = language;
+        this.dispLanguage = dispLanguage;
     }
-}
+
+    private int language;
+
+    private String dispLanguage;
+
+
+    public static String getDispByLang(Integer language){
+
+        for(LangEnum langEnum : LangEnum.values()){
+
+            if(langEnum.getLanguage() == language){
+                return langEnum.dispLanguage;
+            }
+
+        }
+
+        return null;
+    }
+
+
+    public int getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(int language) {
+        this.language = language;
+    }
+
+    public String getDispLanguage() {
+        return dispLanguage;
+    }
+
+    public void setDispLanguage(String dispLanguage) {
+        this.dispLanguage = dispLanguage;
+    }}

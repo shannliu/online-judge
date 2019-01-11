@@ -1,16 +1,6 @@
-package cn.edu.nju.software.judge.controller.problem;
+package cn.edu.nju.software.judge.controller.submission;
 
-import cn.edu.nju.software.judge.model.ProblemModel;
-import cn.edu.nju.software.judge.service.problem.ProblemService;
-import cn.edu.nju.software.judge.vo.Result;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -36,21 +26,8 @@ import javax.servlet.http.HttpServletResponse;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-@RestController
-@RequestMapping("/problem")
-public class ProblemController {
+@Controller
+public class SubmissionWebsocketController {
 
-    @Resource
-    private ProblemService problemService;
 
-    @GetMapping("/detail")
-    public Result detail(final Integer problemId){
-
-        final ProblemModel problemModel = problemService.getByProblemId(problemId);
-
-        if(null == problemModel){
-            return Result.failure("问题不存在");
-        }
-        return Result.success(problemModel);
-    }
 }

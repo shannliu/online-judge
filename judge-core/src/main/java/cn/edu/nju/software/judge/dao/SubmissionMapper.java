@@ -93,4 +93,7 @@ public interface SubmissionMapper {
      * @mbg.generated Fri Jan 04 10:02:07 CST 2019
      */
     int updateByPrimaryKey(Submission record);
+
+
+    List<Submission> selectBySelective(Submission record);
 }

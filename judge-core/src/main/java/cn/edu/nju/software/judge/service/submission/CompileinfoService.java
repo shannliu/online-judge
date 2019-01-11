@@ -27,6 +27,16 @@ import cn.edu.nju.software.judge.model.CompileinfoModel;
  * ////////////////////////////////////////////////////////////////////
  */
 public interface CompileinfoService {
-
+    /**
+     * 插入编译错误信息
+     * @param compileinfoModel
+     */
     void insert(CompileinfoModel compileinfoModel);
+
+    /**
+     * 根据提交记录ID获取编译错误信息
+     * @param submissionId
+     * @return
+     */
+    CompileinfoModel findBySubmissionId(Integer submissionId);
 }

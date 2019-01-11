@@ -118,4 +118,7 @@ public interface ProblemMapper {
      * @mbg.generated Sat Dec 22 11:39:09 CST 2018
      */
     int updateByPrimaryKey(Problem record);
+
+
+    Problem findByProblemId(Integer problemId);
 }

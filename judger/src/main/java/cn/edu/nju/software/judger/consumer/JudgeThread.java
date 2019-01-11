@@ -132,7 +132,7 @@ public class JudgeThread {
                         }
 
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                 }
                 //如果被标记停止执行，则将阻塞队列中的所有值清空

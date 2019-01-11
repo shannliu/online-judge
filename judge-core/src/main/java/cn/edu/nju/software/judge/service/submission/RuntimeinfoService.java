@@ -27,6 +27,16 @@ import cn.edu.nju.software.judge.model.RuntimeinfoModel;
  * ////////////////////////////////////////////////////////////////////
  */
 public interface RuntimeinfoService {
-
+    /**
+     * 插入运行错误信息
+     * @param runtimeinfoModel
+     */
     void insert(RuntimeinfoModel runtimeinfoModel);
+
+    /**
+     * 根据提交记录ID获取运行错误信息
+     * @param submissionId
+     * @return
+     */
+    RuntimeinfoModel findBySubmissionId(Integer submissionId);
 }

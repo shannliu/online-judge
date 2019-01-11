@@ -2,15 +2,20 @@ package cn.edu.nju.software.judge.controller.submission;
 
 import cn.edu.nju.software.judge.beans.SubmissionExample;
 import cn.edu.nju.software.judge.dao.SubmissionMapper;
-import cn.edu.nju.software.judge.model.SubmissionModel;
+import cn.edu.nju.software.judge.model.*;
+import cn.edu.nju.software.judge.service.problem.ProblemService;
+import cn.edu.nju.software.judge.service.submission.CompileinfoService;
+import cn.edu.nju.software.judge.service.submission.RuntimeinfoService;
+import cn.edu.nju.software.judge.service.submission.SubmissionCodeService;
 import cn.edu.nju.software.judge.service.submission.SubmissionService;
+import cn.edu.nju.software.judge.submission.LangEnum;
 import cn.edu.nju.software.judge.submission.ResultCode;
 import cn.edu.nju.software.judge.vo.Result;
+import cn.edu.nju.software.judge.vo.SubmissionVO;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -18,6 +23,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -52,31 +58,130 @@ public class SubmissionController {
     @Resource
     private SubmissionService submissionService;
 
+    @Resource
+    private SubmissionCodeService submissionCodeService;
 
-    @RequestMapping(value = "submit",method = {POST})
-    public Result submitCode(@RequestBody SubmissionModel submissionModel){
+    @Resource
+    private ProblemService problemService;
+
+    @Resource
+    private CompileinfoService compileinfoService;
+
+    @Resource
+    private RuntimeinfoService runtimeinfoService;
+
+
+    @RequestMapping(value = "submit", method = {POST})
+    public Result submitCode(@RequestBody SubmissionModel submissionModel) {
         try {
+            Assert.notNull(submissionModel.getProblemId(), "problemId is not null");
+            final ProblemModel problemModel = problemService.getByProblemId(submissionModel.getProblemId());
+
+            if (null == problemModel) {
+                throw new Exception("问题不存在");
+            }
+
+
+            submissionModel.setTime(problemModel.getTimeLimit());
+            submissionModel.setMemory(problemModel.getMemoryLimit());
             final LocalDateTime now = LocalDateTime.now();
             submissionModel.setResult(ResultCode.WT.getCode());
             submissionModel.setSubmitTime(now);
             submissionModel.setDel(-1);
             submissionModel.setAddDatetime(now);
+            submissionModel.setDispLanguage(LangEnum.getDispByLang(submissionModel.getLanguage()));
             submissionModel.setUpdateDatetime(now);
-            submissionModel.setOpen((short)0);
-            submissionModel.setValid((byte)0);
-            submissionModel.setJudgeType(null == submissionModel.getJudgeType() ? (byte)1 : submissionModel.getJudgeType());
+            submissionModel.setOpen((short) 0);
+            submissionModel.setValid((byte) 0);
+            submissionModel.setJudgeType(null == submissionModel.getJudgeType() ? (byte) 1 : submissionModel.getJudgeType());
             submissionModel.setPassRate(new BigDecimal("0"));
             submissionModel.setJudger("local");
             submissionService.addSubmission(submissionModel);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure("提交失败");
+            return Result.failure(e.getMessage());
         }
 
         return Result.success();
     }
 
+    @PostMapping("/my")
+    public Result list(@RequestBody SubmissionModel submissionModel) {
+        //先写死，后期从session里面取
+        submissionModel.setUserId(1);
+        final List<SubmissionModel> example = submissionService.findByExample(submissionModel, 1, 10);
+
+        return Result.success(example);
+    }
+
+    @GetMapping("/detail")
+    public Result detail(Integer submissionId) {
+
+        final SubmissionModel submissionModel = submissionService.findBySubmissionId(submissionId);
+
+
+        if (null == submissionModel) {
+            return Result.failure("提交记录不存在");
+        }
+
+        /**
+         * 判断提交记录是不是本人的，本人的才可以查看详情
+         */
+        final Integer userId = submissionModel.getUserId();
+
+
+        if (!Objects.equals(userId, 1)) {
+            return Result.failure("无权限查看");
+        }
+
+        SubmissionVO submissionVO = new SubmissionVO();
+
+        final SubmissionCodeModel submissionCodeModel = submissionCodeService.findBySubmissionId(submissionId);
+
+        submissionModel.setSource(null == submissionCodeModel ? null : submissionCodeModel.getSource());
+
+        submissionVO.setSubmissionModel(submissionModel);
+
+        if (submissionModel.getResult() == ResultCode.CE.getCode()) {
+            //编译错误，获取编译错误信息
+            final CompileinfoModel compileinfoModel = compileinfoService.findBySubmissionId(submissionId);
+            submissionVO.setCompileinfoModel(compileinfoModel);
+        } else if (submissionModel.getResult() == ResultCode.RE.getCode()) {
+            //运行错误，获取运行错误信息
+            final RuntimeinfoModel runtimeinfoModel = runtimeinfoService.findBySubmissionId(submissionId);
+            submissionVO.setRuntimeinfoModel(runtimeinfoModel);
+        }
+
+
+        return Result.success(submissionVO);
+
+    }
+
+    @GetMapping("/getLastCode")
+    public Result getLastCode(Integer problemId) {
+
+
+        SubmissionModel submissionModel = new SubmissionModel();
+        submissionModel.setProblemId(problemId);
+        submissionModel.setUserId(1);
+        final List<SubmissionModel> example = submissionService.findByExample(submissionModel, 1, 1);
+
+        if (null == example || example.isEmpty()) {
+
+            return Result.success(null);
+        }
+
+        final SubmissionModel submissionModel1 = example.get(0);
+
+        final SubmissionCodeModel submissionCodeModel = submissionCodeService.findBySubmissionId(submissionModel1.getSubmissionId());
+
+
+        submissionModel1.setSource(submissionCodeModel.getSource());
+
+        return Result.success(submissionModel1);
+
+    }
 
     public static void main(String[] args) {
 
@@ -124,10 +229,9 @@ public class SubmissionController {
         submissionModel.setLanguage(0);
         submissionModel.setDispLanguage("C");
         submissionModel.setProblemId(5868);
-        submissionModel.setJudgeType((byte)1);
+        submissionModel.setJudgeType((byte) 1);
 
         System.out.println(JSON.toJSONString(submissionModel));
-
 
 
 //        List<JSONObject> lists = new ArrayList<>();
@@ -378,5 +482,6 @@ public class SubmissionController {
 //        System.out.println(JSON.toJSONString(lists));
 
     }
+
 
 }
