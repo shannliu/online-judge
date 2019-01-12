@@ -51,9 +51,25 @@ public class ProblemController {
         return "ok";
     }
 
+    /**
+     * 根据条件获取练习列表
+     * @param example
+     * @return
+     */
     @RequestMapping("/getProblemList")
     @ResponseBody
     public List<Problem> getListProblem(ProblemExample example){
         return problemService.getListProblem(example);
+    }
+
+    /**
+     * 获取相应id的练习
+     * @param id
+     * @return
+     */
+    @RequestMapping("/getProblemById")
+    @ResponseBody
+    public Problem getProblemById(int id){
+        return problemService.getProblemById(id);
     }
 }

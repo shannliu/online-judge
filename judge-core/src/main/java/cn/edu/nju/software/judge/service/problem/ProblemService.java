@@ -30,5 +30,17 @@ import java.util.List;
  * ////////////////////////////////////////////////////////////////////
  */
 public interface ProblemService {
-    public List<Problem> getListProblem(ProblemExample example);
+    /**
+     * 获取练习列表
+     * @param example
+     * @return
+     */
+     List<Problem> getListProblem(ProblemExample example);
+
+    /**
+     * 获取指定练习
+     * @param id
+     * @return
+     */
+     Problem getProblemById(int id);
 }

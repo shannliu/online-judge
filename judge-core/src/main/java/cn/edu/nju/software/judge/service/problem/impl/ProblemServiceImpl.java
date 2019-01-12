@@ -43,4 +43,9 @@ public class ProblemServiceImpl implements ProblemService {
     public List<Problem> getListProblem(ProblemExample example) {
         return problemMapper.selectByExample(example);
     }
+
+    @Override
+    public Problem getProblemById(int id) {
+        return problemMapper.selectByPrimaryKey(id);
+    }
 }
