@@ -1,5 +1,6 @@
 package cn.edu.nju.software.judge.controller.submission;
 
+import cn.edu.nju.software.judge.beans.Submission;
 import cn.edu.nju.software.judge.beans.SubmissionExample;
 import cn.edu.nju.software.judge.dao.SubmissionMapper;
 import cn.edu.nju.software.judge.model.SubmissionModel;
@@ -10,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -76,8 +78,26 @@ public class SubmissionController {
 
         return Result.success();
     }
-
-
+    /**
+     * 获取提交记录列表
+     * @param example
+     * @return
+     */
+    @RequestMapping("/getListSubmission")
+    @ResponseBody
+    public List<Submission> getListSubmission(SubmissionExample example){
+        return submissionService.getListSubmission(example);
+    }
+    /**
+     * 获取指定提交记录
+     * @param id
+     * @return
+     */
+    @RequestMapping("/getSubmissionById")
+    @ResponseBody
+    public Submission getSubmissionById(int id){
+        return submissionService.getSubmissionById(id);
+    }
     public static void main(String[] args) {
 
         SubmissionModel submissionModel = new SubmissionModel();

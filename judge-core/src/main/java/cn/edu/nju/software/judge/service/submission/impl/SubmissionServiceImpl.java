@@ -2,6 +2,7 @@ package cn.edu.nju.software.judge.service.submission.impl;
 
 import cn.edu.nju.software.judge.beans.Submission;
 import cn.edu.nju.software.judge.beans.SubmissionCode;
+import cn.edu.nju.software.judge.beans.SubmissionExample;
 import cn.edu.nju.software.judge.dao.SubmissionCodeMapper;
 import cn.edu.nju.software.judge.dao.SubmissionMapper;
 import cn.edu.nju.software.judge.model.SubmissionModel;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -80,6 +82,16 @@ public class SubmissionServiceImpl implements SubmissionService {
             LOG.error("updateSubmissionSelective fail",e);
             throw e;
         }
+    }
+
+    @Override
+    public Submission getSubmissionById(int id) {
+        return submissionMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Submission> getListSubmission(SubmissionExample example) {
+        return submissionMapper.selectByExample(example);
     }
 
     private SubmissionModel PO2Model( SubmissionModel submissionModel, Submission submission){
