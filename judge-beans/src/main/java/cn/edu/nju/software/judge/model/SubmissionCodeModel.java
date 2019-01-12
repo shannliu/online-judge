@@ -59,4 +59,20 @@ public class SubmissionCodeModel {
         submissionCode.setSubmissionId(submissionId);
         return submissionCode;
     }
+
+    public Integer getSubmissionId() {
+        return submissionId;
+    }
+
+    public void setSubmissionId(Integer submissionId) {
+        this.submissionId = submissionId;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 }

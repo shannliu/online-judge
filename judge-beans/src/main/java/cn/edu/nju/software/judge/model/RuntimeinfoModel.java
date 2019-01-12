@@ -61,4 +61,19 @@ public class RuntimeinfoModel {
         return runtimeinfo;
     }
 
+    public Integer getSubmissionId() {
+        return submissionId;
+    }
+
+    public void setSubmissionId(Integer submissionId) {
+        this.submissionId = submissionId;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 }

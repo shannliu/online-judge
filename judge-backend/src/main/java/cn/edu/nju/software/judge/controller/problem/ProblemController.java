@@ -1,16 +1,18 @@
 package cn.edu.nju.software.judge.controller.problem;
 
-import cn.edu.nju.software.judge.model.ProblemModel;
+import cn.edu.nju.software.judge.beans.Problem;
+import cn.edu.nju.software.judge.beans.ProblemExample;
 import cn.edu.nju.software.judge.service.problem.ProblemService;
-import cn.edu.nju.software.judge.vo.Result;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -39,18 +41,19 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/problem")
 public class ProblemController {
-
     @Resource
     private ProblemService problemService;
+    @GetMapping
+    @RequestMapping(value = "getProblemList.do")
+    public String getProblemList(HttpServletRequest request, HttpServletResponse response,
+                                 @Param("name")String name, @Param("id")Integer id){
+        System.out.println("name: "+name+" id: "+id);
+        return "ok";
+    }
 
-    @GetMapping("/detail")
-    public Result detail(final Integer problemId){
-
-        final ProblemModel problemModel = problemService.getByProblemId(problemId);
-
-        if(null == problemModel){
-            return Result.failure("问题不存在");
-        }
-        return Result.success(problemModel);
+    @RequestMapping("/getProblemList")
+    @ResponseBody
+    public List<Problem> getListProblem(ProblemExample example){
+        return problemService.getListProblem(example);
     }
 }

@@ -2,8 +2,6 @@ package cn.edu.nju.software.judge.service.submission;
 
 import cn.edu.nju.software.judge.model.SubmissionModel;
 
-import java.util.List;
-
 /**
  * ////////////////////////////////////////////////////////////////////
  * //                          _ooOoo_                               //
@@ -30,32 +28,8 @@ import java.util.List;
  */
 public interface SubmissionService {
 
-    /**
-     * 添加提交记录信息
-     * @param submissionModel
-     * @return
-     */
     SubmissionModel addSubmission(SubmissionModel submissionModel);
 
-    /**
-     * 根据传递提交记录信息，有选择性的更新非空的信息
-     * @param submissionModel
-     */
+
     void updateSubmissionSelective(SubmissionModel submissionModel);
-
-    /**
-     * 根据条件分页查询提交记录
-     * @param submissionModel
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    List<SubmissionModel> findByExample(SubmissionModel submissionModel,Integer pageNum,Integer pageSize);
-
-    /**
-     * 根据提交记录ID获取提交记录信息
-     * @param submissionId
-     * @return
-     */
-    SubmissionModel findBySubmissionId(Integer submissionId);
 }
