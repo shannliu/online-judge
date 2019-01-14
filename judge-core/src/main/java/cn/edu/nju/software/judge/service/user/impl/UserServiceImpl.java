@@ -1,12 +1,15 @@
 package cn.edu.nju.software.judge.service.user.impl;
 
 import cn.edu.nju.software.judge.beans.User;
+import cn.edu.nju.software.judge.beans.UserExample;
 import cn.edu.nju.software.judge.dao.UserMapper;
 import cn.edu.nju.software.judge.model.UserModel;
 import cn.edu.nju.software.judge.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -73,6 +76,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return "Success";
+    }
+
+    @Override
+    public List<User> getOrderUserlistBySubmitandSolved(UserExample example) {
+        return userMapper.selectByExample(example);
     }
 
 }

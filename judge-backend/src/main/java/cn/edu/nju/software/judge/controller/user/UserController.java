@@ -1,6 +1,7 @@
 package cn.edu.nju.software.judge.controller.user;
 
 import cn.edu.nju.software.judge.beans.User;
+import cn.edu.nju.software.judge.beans.UserExample;
 import cn.edu.nju.software.judge.model.UserModel;
 import cn.edu.nju.software.judge.service.user.UserService;
 import org.apache.ibatis.annotations.Param;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -69,4 +71,13 @@ public class UserController {
         String result = userService.register(model);
         return result;
     }
+
+    @RequestMapping("getOrderUser.do")
+    @ResponseBody
+    public List<User> getOrderUserBySubmitAndSolved(UserExample example){
+        example = new UserExample();
+        example.setOrderByClause("solved desc,submit asc");
+        return userService.getOrderUserlistBySubmitandSolved(example);
+    }
+
 }

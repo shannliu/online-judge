@@ -1,6 +1,10 @@
 package cn.edu.nju.software.judge.service.user;
 
+import cn.edu.nju.software.judge.beans.User;
+import cn.edu.nju.software.judge.beans.UserExample;
 import cn.edu.nju.software.judge.model.UserModel;
+
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -29,4 +33,11 @@ import cn.edu.nju.software.judge.model.UserModel;
 public interface UserService {
     boolean loginIn(UserModel model);
     String register(UserModel model);
+
+    /**
+     * 获取有序用户列表
+     * @param example
+     * @return
+     */
+    List<User> getOrderUserlistBySubmitandSolved(UserExample example);
 }
