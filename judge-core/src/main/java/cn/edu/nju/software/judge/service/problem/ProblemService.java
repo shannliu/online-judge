@@ -1,6 +1,10 @@
 package cn.edu.nju.software.judge.service.problem;
 
+import cn.edu.nju.software.judge.beans.Problem;
+import cn.edu.nju.software.judge.beans.ProblemExample;
 import cn.edu.nju.software.judge.model.ProblemModel;
+
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -41,4 +45,11 @@ public interface ProblemService {
      * @return
      */
     ProblemModel getByProblemIdWithoutBlobs(Integer problemId);
+
+    /**
+     * 获取问题列表
+     * @param example
+     * @return
+     */
+    List<Problem> getProblemList(ProblemExample example);
 }

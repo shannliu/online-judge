@@ -1,5 +1,6 @@
 package cn.edu.nju.software.judge.controller.user;
 
+
 import cn.edu.nju.software.judge.beans.User;
 import cn.edu.nju.software.judge.beans.UserExample;
 import cn.edu.nju.software.judge.model.UserModel;
@@ -72,12 +73,21 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 获取排名用户
+     * @param example
+     * @return
+     */
     @RequestMapping("getOrderUser.do")
     @ResponseBody
     public List<User> getOrderUserBySubmitAndSolved(UserExample example){
         example = new UserExample();
         example.setOrderByClause("solved desc,submit asc");
-        return userService.getOrderUserlistBySubmitandSolved(example);
+        List<User> users = userService.getOrderUserlistBySubmitandSolved(example);
+        if (users != null){
+            return users;
+        }
+        return null;
     }
 
 }

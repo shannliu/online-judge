@@ -1,6 +1,7 @@
 package cn.edu.nju.software.judge.service.problem.impl;
 
 import cn.edu.nju.software.judge.beans.Problem;
+import cn.edu.nju.software.judge.beans.ProblemExample;
 import cn.edu.nju.software.judge.beans.ProblemWithBLOBs;
 import cn.edu.nju.software.judge.dao.ProblemMapper;
 import cn.edu.nju.software.judge.model.ProblemModel;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -57,6 +59,11 @@ public class ProblemServiceImpl implements ProblemService {
     public ProblemModel getByProblemIdWithoutBlobs(Integer problemId) {
         final Problem problem = problemMapper.findByProblemId(problemId);
         return PO2Model(problem);
+    }
+
+    @Override
+    public List<Problem> getProblemList(ProblemExample example) {
+        return problemMapper.selectByExample(example);
     }
 
     private ProblemModel PO2Model(Problem problem){
