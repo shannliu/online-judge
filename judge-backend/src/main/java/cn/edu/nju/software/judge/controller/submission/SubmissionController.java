@@ -1,7 +1,5 @@
 package cn.edu.nju.software.judge.controller.submission;
 
-import cn.edu.nju.software.judge.beans.SubmissionExample;
-import cn.edu.nju.software.judge.dao.SubmissionMapper;
 import cn.edu.nju.software.judge.model.*;
 import cn.edu.nju.software.judge.service.problem.ProblemService;
 import cn.edu.nju.software.judge.service.submission.CompileinfoService;
@@ -13,7 +11,7 @@ import cn.edu.nju.software.judge.submission.ResultCode;
 import cn.edu.nju.software.judge.vo.Result;
 import cn.edu.nju.software.judge.vo.SubmissionVO;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +19,6 @@ import javax.annotation.Resource;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -70,7 +66,11 @@ public class SubmissionController {
     @Resource
     private RuntimeinfoService runtimeinfoService;
 
-
+    /**
+     * 用户提交代码
+     * @param submissionModel
+     * @return
+     */
     @RequestMapping(value = "submit", method = {POST})
     public Result submitCode(@RequestBody SubmissionModel submissionModel) {
         try {
@@ -104,17 +104,28 @@ public class SubmissionController {
         }
 
         return Result.success();
+
     }
 
+    /**
+     * 显示自己的提交记录
+     * @param submissionModel
+     * @return
+     */
     @PostMapping("/my")
     public Result list(@RequestBody SubmissionModel submissionModel) {
         //先写死，后期从session里面取
         submissionModel.setUserId(1);
-        final List<SubmissionModel> example = submissionService.findByExample(submissionModel, 1, 10);
+        final PageInfo<SubmissionModel> example = submissionService.findByExample(submissionModel, submissionModel.getPageNum(), submissionModel.getPageSize());
 
         return Result.success(example);
     }
 
+    /**
+     * 显示提交记录详情
+     * @param submissionId
+     * @return
+     */
     @GetMapping("/detail")
     public Result detail(Integer submissionId) {
 
@@ -158,6 +169,11 @@ public class SubmissionController {
 
     }
 
+    /**
+     * 获取最后一次提交的代码信息
+     * @param problemId
+     * @return
+     */
     @GetMapping("/getLastCode")
     public Result getLastCode(Integer problemId) {
 
@@ -165,17 +181,14 @@ public class SubmissionController {
         SubmissionModel submissionModel = new SubmissionModel();
         submissionModel.setProblemId(problemId);
         submissionModel.setUserId(1);
-        final List<SubmissionModel> example = submissionService.findByExample(submissionModel, 1, 1);
+        final SubmissionModel submissionModel1 = submissionService.getLastCode(submissionModel);
 
-        if (null == example || example.isEmpty()) {
+        if (null == submissionModel1) {
 
             return Result.success(null);
         }
 
-        final SubmissionModel submissionModel1 = example.get(0);
-
         final SubmissionCodeModel submissionCodeModel = submissionCodeService.findBySubmissionId(submissionModel1.getSubmissionId());
-
 
         submissionModel1.setSource(submissionCodeModel.getSource());
 

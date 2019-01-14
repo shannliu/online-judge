@@ -47,6 +47,8 @@ import java.util.List;
  * //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
+ *
+ * @author liuxiaojing
  */
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
@@ -94,24 +96,36 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
 //    @Cacheable("submission_findByExample")
-    public List<SubmissionModel> findByExample(SubmissionModel submissionModel,Integer pageNum,Integer pageSize) {
+    public PageInfo<SubmissionModel> findByExample(SubmissionModel submissionModel,Integer pageNum,Integer pageSize) {
         LOG.info("get from db....");
-        final Page<List<SubmissionModel> > results = PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(pageNum, pageSize);
 
         final List<Submission> submissions = submissionMapper.selectBySelective(submissionModel.submission());
 
+        PageInfo page = new PageInfo(submissions);
+
         List<SubmissionModel> submissionModels = new ArrayList<>(submissions.size());
 
-        for(Submission submission : submissions){
+        for(Submission submission : (List<Submission>)page.getList()){
             submissionModels.add(PO2Model(submission));
         }
-        PageInfo page = new PageInfo(submissionModels);
-        return submissionModels;
+        page.setList(submissionModels);
+        return page;
     }
 
     @Override
     public SubmissionModel findBySubmissionId(Integer submissionId) {
         return PO2Model(submissionMapper.selectByPrimaryKey(submissionId));
+    }
+
+    @Override
+    public SubmissionModel getLastCode(SubmissionModel submissionModel) {
+        PageHelper.startPage(1,1);
+        final List<Submission> submissions = submissionMapper.selectBySelective(submissionModel.submission());
+        if(null == submissions || submissions.isEmpty()){
+            return null;
+        }
+        return PO2Model(submissions.get(0));
     }
 
     private SubmissionModel PO2Model(SubmissionModel submissionModel, Submission submission){

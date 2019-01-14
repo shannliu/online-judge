@@ -7,6 +7,7 @@ import cn.edu.nju.software.judge.service.submission.CompileinfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,8 @@ import javax.annotation.Resource;
  * //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
+ *
+ * @author liuxiaojing
  */
 @Service
 public class CompileinfoServiceImpl implements CompileinfoService {

@@ -25,6 +25,8 @@ import cn.edu.nju.software.judge.model.CompileinfoModel;
  * //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
+ *
+ * @author liuxiaojing
  */
 public interface CompileinfoService {
     /**

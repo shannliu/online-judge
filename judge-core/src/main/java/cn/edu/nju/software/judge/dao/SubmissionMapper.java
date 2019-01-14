@@ -3,6 +3,8 @@ package cn.edu.nju.software.judge.dao;
 import cn.edu.nju.software.judge.beans.Submission;
 import cn.edu.nju.software.judge.beans.SubmissionExample;
 import java.util.List;
+
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 public interface SubmissionMapper {
@@ -94,6 +96,11 @@ public interface SubmissionMapper {
      */
     int updateByPrimaryKey(Submission record);
 
-
+    /**
+     * 根据条件查询列表
+     * @param record
+     * @return
+     */
     List<Submission> selectBySelective(Submission record);
+
 }

@@ -568,7 +568,6 @@
       del = #{del,jdbcType=INTEGER}
     where submission_id = #{submissionId,jdbcType=INTEGER}
   </update>
-
   <select id="selectBySelective" parameterType="cn.edu.nju.software.judge.beans.Submission" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

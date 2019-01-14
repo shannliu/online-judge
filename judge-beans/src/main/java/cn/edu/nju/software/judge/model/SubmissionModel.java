@@ -89,6 +89,10 @@ public class SubmissionModel implements Serializable {
 
     private String source;
 
+    private Integer pageNum;
+
+    private Integer pageSize;
+
 
     public Submission submission(){
 

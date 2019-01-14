@@ -38,6 +38,8 @@ import javax.annotation.Resource;
  * //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
+ *
+ * @author liuxiaojing
  */
 @Service
 public class RuntimeinfoServiceImpl implements RuntimeinfoService {
