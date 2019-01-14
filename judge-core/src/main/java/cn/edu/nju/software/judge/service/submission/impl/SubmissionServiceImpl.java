@@ -47,8 +47,6 @@ import java.util.List;
  * //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
- *
- * @author liuxiaojing
  */
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
