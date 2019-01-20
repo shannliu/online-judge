@@ -76,4 +76,14 @@ public enum  ResultCode {
 
     public void setStatusCanonical(String statusCanonical) {
         this.statusCanonical = statusCanonical;
-    }}
+    }
+
+    public static String getStatusByCode(short code){
+        for(ResultCode resultCode : ResultCode.values()){
+            if(resultCode.code == code){
+                return resultCode.status;
+            }
+        }
+        return null;
+    }
+}

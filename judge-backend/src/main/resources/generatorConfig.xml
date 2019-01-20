@@ -37,20 +37,10 @@
 
 
 
-        <table tableName="_article"/>
-        <table tableName="_reply"/>
-        <table tableName="_contest"/>
-        <table tableName="_cproblem"/>
-        <table tableName="_news"/>
-        <table tableName="_privilege"/>
-        <table tableName="_problem"/>
+
         <table tableName="_submission"/>
-        <table tableName="_submission_code"/>
-        <table tableName="_compileinfo"/>
-        <table tableName="_runtimeinfo"/>
-        <table tableName="_sim"/>
-        <table tableName="_custominput"/>
-        <table tableName="_user"/>
+        <table tableName="_template"/>
+
 
     </context>
 

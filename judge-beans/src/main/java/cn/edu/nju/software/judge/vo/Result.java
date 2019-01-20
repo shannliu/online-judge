@@ -6,11 +6,11 @@ public class Result<T> implements Serializable {
 
 
     private static final long serialVersionUID = 444059347993399276L;
-    private Integer code = 1;
+    private Integer code = 0;
 
     private String msg;
 
-    private T result;
+    private T data;
 
     public Result() {
 
@@ -25,10 +25,10 @@ public class Result<T> implements Serializable {
         this.msg = msg;
     }
 
-    public Result(Integer code, String msg, T result) {
+    public Result(Integer code, String msg, T data) {
         this.code = code;
         this.msg = msg;
-        this.result = result;
+        this.data = data;
     }
 
     public static Result success(){
@@ -36,6 +36,19 @@ public class Result<T> implements Serializable {
     }
     public static Result failure(String msg){
         return new Result(400,msg);
+    }
+
+
+    public static Result notLogin(){
+        return new Result(1,"not login");
+    }
+
+    public static  <T> Result success(T data){
+        Result<T> result = new Result();
+        result.setCode(0);
+        result.setMsg("成功");
+        result.setData(data);
+        return result;
     }
     public static Result failure(Integer code,String msg){
         return new Result(code,msg);
@@ -58,11 +71,11 @@ public class Result<T> implements Serializable {
         this.msg = msg;
     }
 
-    public T getResult() {
-        return result;
+    public T getData() {
+        return data;
     }
 
-    public void setResult(T result) {
-        this.result = result;
+    public void setData(T data) {
+        this.data = data;
     }
 }

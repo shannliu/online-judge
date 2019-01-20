@@ -35,7 +35,6 @@ import java.io.Serializable;
 @ToString
 public class CompileRequest implements Serializable {
 
-
     private static final long serialVersionUID = 4604390245677125342L;
 
     private String source;
@@ -44,5 +43,7 @@ public class CompileRequest implements Serializable {
 
     private int runId;
 
+    private int type = 1;
 
+    private int problemId;
 }

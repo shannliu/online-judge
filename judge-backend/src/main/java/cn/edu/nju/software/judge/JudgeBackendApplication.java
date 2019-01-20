@@ -1,5 +1,7 @@
 package cn.edu.nju.software.judge;
 
+import cn.edu.nju.software.judge.filter.AccessInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,11 +12,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
-public class JudgeBackendApplication {
+public class JudgeBackendApplication  implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JudgeBackendApplication.class, args);
@@ -46,6 +50,14 @@ public class JudgeBackendApplication {
 		config.addAllowedMethod("PATCH");
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
+	}
+
+	@Autowired
+	AccessInterceptor accessInterceptor;
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(accessInterceptor).addPathPatterns("/**");
 	}
 
 }

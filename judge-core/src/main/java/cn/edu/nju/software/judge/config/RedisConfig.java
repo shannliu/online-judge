@@ -6,10 +6,18 @@ import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+
+import java.time.Duration;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -37,11 +45,30 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @Configuration
 @EnableCaching
+@EnableRedisHttpSession
 public class RedisConfig  extends CachingConfigurerSupport {
 
     @Bean
+    public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
+        FastJsonRedisSerializer fastJsonRedisSerializer = new FastJsonRedisSerializer(Object.class);
+        return fastJsonRedisSerializer;
+    }
+
+    @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
-        RedisCacheManager cacheManager = RedisCacheManager.create(factory);
+        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(factory);
+
+        //使用fastjson序列化
+        FastJsonRedisSerializer fastJsonRedisSerializer = new FastJsonRedisSerializer(Object.class);
+        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
+        ParserConfig.getGlobalInstance().addAccept("cn.edu.nju.software.judge.");
+
+        RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer);
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
+
+        defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofSeconds(10 * 60));
+
+        RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter,defaultCacheConfig);
         return cacheManager;
     }
 

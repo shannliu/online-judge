@@ -53,6 +53,8 @@ public class JudgeClient  {
     public CompileResponse compile(CompileRequest compileRequest){
         JudgeOuterClass.CompileRequest request = JudgeOuterClass.CompileRequest.newBuilder().setRunId(compileRequest.getRunId())
                 .setLanguage(compileRequest.getLanguage())
+                .setProblemId(compileRequest.getProblemId())
+                .setType(compileRequest.getType())
                 .setSource(compileRequest.getSource())
                 .build();
         JudgeOuterClass.CompileResponse response;
@@ -84,7 +86,6 @@ public class JudgeClient  {
         try{
 
             response = blockingStub.run(request);
-
 
             RunResponse runResponse = new RunResponse();
 
