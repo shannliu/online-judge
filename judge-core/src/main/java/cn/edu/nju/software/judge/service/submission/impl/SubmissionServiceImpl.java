@@ -118,7 +118,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
     public SubmissionModel getLastCode(SubmissionModel submissionModel) {
-        PageHelper.startPage(1,1);
+        PageHelper.startPage(1,1,false);
         final List<Submission> submissions = submissionMapper.selectBySelective(submissionModel.submission());
         if(null == submissions || submissions.isEmpty()){
             return null;

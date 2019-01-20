@@ -1,10 +1,9 @@
-package cn.edu.nju.software.judge.service.user;
+package cn.edu.nju.software.judge.annotation;
 
-import cn.edu.nju.software.judge.beans.User;
-import cn.edu.nju.software.judge.beans.UserExample;
-import cn.edu.nju.software.judge.model.UserModel;
-
-import java.util.List;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -29,26 +28,11 @@ import java.util.List;
  * //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
+ *
+ * 需要登录
  */
-public interface UserService {
-    /**
-     * 登录
-     * @param model
-     * @return
-     */
-    UserModel loginIn(UserModel model);
-
-    /**
-     * 注册
-     * @param model
-     * @return
-     */
-    UserModel register(UserModel model);
-
-    /**
-     * 获取有序用户列表
-     * @param example
-     * @return
-     */
-    List<User> getOrderUserlistBySubmitandSolved(UserExample example);
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE,ElementType.METHOD})
+public @interface LoginRequired {
+    boolean value() default true;
 }

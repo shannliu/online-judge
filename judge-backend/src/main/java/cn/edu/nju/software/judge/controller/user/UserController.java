@@ -3,8 +3,10 @@ package cn.edu.nju.software.judge.controller.user;
 
 import cn.edu.nju.software.judge.beans.User;
 import cn.edu.nju.software.judge.beans.UserExample;
+import cn.edu.nju.software.judge.constant.UserConstants;
 import cn.edu.nju.software.judge.model.UserModel;
 import cn.edu.nju.software.judge.service.user.UserService;
+import cn.edu.nju.software.judge.vo.Result;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,37 +42,74 @@ import java.util.List;
  */
 @RestController
 public class UserController {
+
     @Autowired
     UserService userService;
+
+    /**
+     * 登录
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
     @PostMapping("login.do")
-    public String login(HttpServletRequest request, HttpServletResponse response,
+    public Result login(HttpServletRequest request, HttpServletResponse response,
                         @RequestBody UserModel model){
         //验证用户名和密码
-        boolean exist = userService.loginIn(model);
-        if (exist){
+        try {
+            UserModel userModel = userService.loginIn(model);
             HttpSession session = request.getSession();
-            session.setAttribute("user",model);
-            return "success";
-        }else {
-            return "error";
+            session.setAttribute(UserConstants.USER, userModel);
+            return Result.success();
+        }catch (Exception e){
+            return Result.failure(e.getMessage());
         }
-
     }
+
+    /**
+     * 退出登录
+     * @param request
+     * @param response
+     * @param name
+     * @return
+     */
     @GetMapping("loginOut.do")
-    public boolean loginOut(HttpServletRequest request, HttpServletResponse response,
+    public Result loginOut(HttpServletRequest request, HttpServletResponse response,
                             @Param("username")String name){
-        //先从数据库查对应的Usermodel
-        HttpSession session = request.getSession();
-        session.removeAttribute("user");
-        request.getSession().invalidate();
-        return true;
+        try {
+            //先从数据库查对应的Usermodel
+            HttpSession session = request.getSession();
+            session.removeAttribute(UserConstants.USER);
+            request.getSession().invalidate();
+            return Result.success();
+        }catch (Exception e){
+            return Result.failure("退出失败");
+        }
     }
 
+    /**
+     * 注册
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
     @PostMapping("register.do")
-    public String register(HttpServletRequest request, HttpServletResponse response,
+    public Result register(HttpServletRequest request, HttpServletResponse response,
                             @RequestBody UserModel model){
-        String result = userService.register(model);
-        return result;
+        try {
+            final UserModel register = userService.register(model);
+            if(null == register){
+                return Result.failure("注册失败");
+            }
+
+            HttpSession session = request.getSession();
+            session.setAttribute(UserConstants.USER, register);
+            return Result.success();
+        }catch (Exception e){
+            return Result.failure(e.getMessage());
+        }
     }
 
     /**

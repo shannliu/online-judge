@@ -1,14 +1,12 @@
 package cn.edu.nju.software.judge.vo;
 
-import cn.edu.nju.software.judge.submission.ResultCode;
-
 import java.io.Serializable;
 
 public class Result<T> implements Serializable {
 
 
     private static final long serialVersionUID = 444059347993399276L;
-    private Integer code = 1;
+    private Integer code = 0;
 
     private String msg;
 
@@ -38,6 +36,11 @@ public class Result<T> implements Serializable {
     }
     public static Result failure(String msg){
         return new Result(400,msg);
+    }
+
+
+    public static Result notLogin(){
+        return new Result(1,"not login");
     }
 
     public static  <T> Result success(T data){

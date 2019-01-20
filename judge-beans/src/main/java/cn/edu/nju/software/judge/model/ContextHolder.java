@@ -1,10 +1,4 @@
-package cn.edu.nju.software.judge.service.user;
-
-import cn.edu.nju.software.judge.beans.User;
-import cn.edu.nju.software.judge.beans.UserExample;
-import cn.edu.nju.software.judge.model.UserModel;
-
-import java.util.List;
+package cn.edu.nju.software.judge.model;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -30,25 +24,15 @@ import java.util.List;
  * //            佛祖保佑       永不宕机     永无BUG                    //
  * ////////////////////////////////////////////////////////////////////
  */
-public interface UserService {
-    /**
-     * 登录
-     * @param model
-     * @return
-     */
-    UserModel loginIn(UserModel model);
+public class ContextHolder {
 
-    /**
-     * 注册
-     * @param model
-     * @return
-     */
-    UserModel register(UserModel model);
+    public static final ThreadLocal userContextHolder = new ThreadLocal();
 
-    /**
-     * 获取有序用户列表
-     * @param example
-     * @return
-     */
-    List<User> getOrderUserlistBySubmitandSolved(UserExample example);
+    public static Object getUserContext() {
+        return userContextHolder.get();
+    }
+
+    public static void setUserContext(Object userContext){
+        userContextHolder.set(userContext);
+    }
 }

@@ -1,5 +1,6 @@
 package cn.edu.nju.software.judge.controller.submission;
 
+import cn.edu.nju.software.judge.annotation.LoginRequired;
 import cn.edu.nju.software.judge.model.*;
 import cn.edu.nju.software.judge.service.problem.ProblemService;
 import cn.edu.nju.software.judge.service.submission.CompileinfoService;
@@ -49,6 +50,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 @RequestMapping("/submission")
+@LoginRequired
 public class SubmissionController {
 
     @Resource
@@ -73,6 +75,7 @@ public class SubmissionController {
      */
     @RequestMapping(value = "submit", method = {POST})
     public Result submitCode(@RequestBody SubmissionModel submissionModel) {
+        final UserModel userContext = (UserModel) ContextHolder.getUserContext();
         try {
             Assert.notNull(submissionModel.getProblemId(), "problemId is not null");
             final ProblemModel problemModel = problemService.getByProblemId(submissionModel.getProblemId());
@@ -81,7 +84,8 @@ public class SubmissionController {
                 throw new Exception("问题不存在");
             }
 
-
+            submissionModel.setUserId(userContext.getUserId());
+            submissionModel.setUserName(userContext.getUserName());
             submissionModel.setTime(problemModel.getTimeLimit());
             submissionModel.setMemory(problemModel.getMemoryLimit());
             final LocalDateTime now = LocalDateTime.now();
@@ -114,8 +118,8 @@ public class SubmissionController {
      */
     @PostMapping("/my")
     public Result list(@RequestBody SubmissionModel submissionModel) {
-        //先写死，后期从session里面取
-        submissionModel.setUserId(1);
+        final UserModel userContext = (UserModel) ContextHolder.getUserContext();
+        submissionModel.setUserId(userContext.getUserId());
         final PageInfo<SubmissionModel> example = submissionService.findByExample(submissionModel, submissionModel.getPageNum(), submissionModel.getPageSize());
 
         return Result.success(example);
@@ -128,6 +132,7 @@ public class SubmissionController {
      */
     @GetMapping("/detail")
     public Result detail(Integer submissionId) {
+        final UserModel userContext = (UserModel) ContextHolder.getUserContext();
 
         final SubmissionModel submissionModel = submissionService.findBySubmissionId(submissionId);
 
@@ -142,7 +147,7 @@ public class SubmissionController {
         final Integer userId = submissionModel.getUserId();
 
 
-        if (!Objects.equals(userId, 1)) {
+        if (!Objects.equals(userId, userContext.getUserId())) {
             return Result.failure("无权限查看");
         }
 
@@ -176,11 +181,10 @@ public class SubmissionController {
      */
     @GetMapping("/getLastCode")
     public Result getLastCode(Integer problemId) {
-
-
+        final UserModel userContext = (UserModel) ContextHolder.getUserContext();
         SubmissionModel submissionModel = new SubmissionModel();
         submissionModel.setProblemId(problemId);
-        submissionModel.setUserId(1);
+        submissionModel.setUserId(userContext.getUserId());
         final SubmissionModel submissionModel1 = submissionService.getLastCode(submissionModel);
 
         if (null == submissionModel1) {

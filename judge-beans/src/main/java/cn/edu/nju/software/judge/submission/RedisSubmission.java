@@ -36,6 +36,8 @@ import java.io.Serializable;
 @ToString
 public class RedisSubmission implements Serializable {
 
+    private static final long serialVersionUID = -3967237773550847742L;
+
     private int runId;
 
     private int problemId;
