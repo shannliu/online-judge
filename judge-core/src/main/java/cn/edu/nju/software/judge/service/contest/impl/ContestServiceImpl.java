@@ -1,8 +1,13 @@
 package cn.edu.nju.software.judge.service.contest.impl;
 
+import cn.edu.nju.software.judge.beans.Contest;
+import cn.edu.nju.software.judge.dao.ContestMapper;
 import cn.edu.nju.software.judge.service.contest.ContestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * ////////////////////////////////////////////////////////////////////
@@ -31,4 +36,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ContestServiceImpl implements ContestService {
+    @Autowired
+    private ContestMapper contestMapper;
+    public List<Contest> getAllContests(){
+        return contestMapper.selectAll();
+    }
 }

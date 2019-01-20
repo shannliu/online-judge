@@ -1,5 +1,9 @@
 package cn.edu.nju.software.judge.service.contest;
 
+import cn.edu.nju.software.judge.beans.Contest;
+
+import java.util.List;
+
 /**
  * ////////////////////////////////////////////////////////////////////
  * //                          _ooOoo_                               //
@@ -25,4 +29,5 @@ package cn.edu.nju.software.judge.service.contest;
  * ////////////////////////////////////////////////////////////////////
  */
 public interface ContestService {
+    List<Contest> getAllContests();
 }
