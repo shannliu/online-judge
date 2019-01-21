@@ -1,5 +1,7 @@
 package cn.edu.nju.software.judge.controller.submission;
 
+import cn.edu.nju.software.judge.beans.Submission;
+import cn.edu.nju.software.judge.beans.SubmissionExample;
 import cn.edu.nju.software.judge.annotation.LoginRequired;
 import cn.edu.nju.software.judge.model.*;
 import cn.edu.nju.software.judge.service.problem.ProblemService;
@@ -20,6 +22,7 @@ import javax.annotation.Resource;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -199,7 +202,16 @@ public class SubmissionController {
         return Result.success(submissionModel1);
 
     }
-
+    /**
+     * 获取所有提交记录列表
+     * @param example
+     * @return
+     */
+    @RequestMapping("/getListSubmission")
+    public Result getListSubmission(SubmissionExample example){
+        List<Submission> submissions = submissionService.getListSubmission(example);
+        return submissions != null ? Result.success(submissions) : Result.success(null);
+    }
     public static void main(String[] args) {
 
         SubmissionModel submissionModel = new SubmissionModel();

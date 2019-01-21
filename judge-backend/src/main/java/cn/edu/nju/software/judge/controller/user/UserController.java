@@ -118,15 +118,14 @@ public class UserController {
      * @return
      */
     @RequestMapping("getOrderUser.do")
-    @ResponseBody
-    public List<User> getOrderUserBySubmitAndSolved(UserExample example){
+    public Result getOrderUserBySubmitAndSolved(UserExample example){
         example = new UserExample();
         example.setOrderByClause("solved desc,submit asc");
         List<User> users = userService.getOrderUserlistBySubmitandSolved(example);
         if (users != null){
-            return users;
+            return Result.success(users);
         }
-        return null;
+        return Result.success(null);
     }
 
 }
