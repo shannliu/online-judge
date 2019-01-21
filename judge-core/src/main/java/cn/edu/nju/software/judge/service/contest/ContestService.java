@@ -1,6 +1,8 @@
 package cn.edu.nju.software.judge.service.contest;
 
 import cn.edu.nju.software.judge.beans.Contest;
+import cn.edu.nju.software.judge.beans.ContestWithBLOBs;
+import cn.edu.nju.software.judge.beans.Cproblem;
 
 import java.util.List;
 
@@ -29,5 +31,23 @@ import java.util.List;
  * ////////////////////////////////////////////////////////////////////
  */
 public interface ContestService {
+    /**
+     * 获取所有
+     * @return
+     */
     List<Contest> getAllContests();
+
+    /**
+     * 根据id获取
+     * @param contestID
+     * @return
+     */
+    ContestWithBLOBs  getContestByContestID(Integer contestID);
+
+    /**
+     * 查找竞赛题目列表
+     * @param contestID
+     * @return
+     */
+    List<Cproblem> getCproblemByContestID(Integer contestID);
 }
