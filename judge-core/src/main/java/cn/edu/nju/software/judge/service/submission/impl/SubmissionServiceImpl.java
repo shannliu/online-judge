@@ -126,6 +126,17 @@ public class SubmissionServiceImpl implements SubmissionService {
         return PO2Model(submissions.get(0));
     }
 
+
+    @Override
+    public List<SubmissionModel> selectByExample(SubmissionExample submissionExample) {
+        final List<Submission> submissions = submissionMapper.selectByExample(submissionExample);
+        List<SubmissionModel> submissionModels = new ArrayList<>(submissions.size());
+        for(Submission s : submissions){
+            submissionModels.add(PO2Model(s));
+        }
+        return submissionModels;
+    }
+
     private SubmissionModel PO2Model(SubmissionModel submissionModel, Submission submission){
         BeanUtils.copyProperties(submission,submissionModel);
         return submissionModel;

@@ -13,7 +13,7 @@ spring:
     host: 127.0.0.1
     port: 6379
 judge:
-  server: 192.168.227.129
+  server: 192.168.227.130
   port: 5000
 ##分页配置
 pagehelper:
