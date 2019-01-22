@@ -118,4 +118,6 @@ public interface ContestMapper {
      * @mbg.generated Sat Dec 22 11:39:09 CST 2018
      */
     int updateByPrimaryKey(Contest record);
+
+    List<Contest> selectAll();
 }

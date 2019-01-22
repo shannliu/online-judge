@@ -1,5 +1,7 @@
 package cn.edu.nju.software.judge.service.submission;
 
+import cn.edu.nju.software.judge.beans.Submission;
+import cn.edu.nju.software.judge.beans.SubmissionExample;
 import cn.edu.nju.software.judge.beans.SubmissionExample;
 import cn.edu.nju.software.judge.model.SubmissionModel;
 import com.github.pagehelper.PageInfo;
@@ -69,6 +71,13 @@ public interface SubmissionService {
      * @return
      */
     SubmissionModel getLastCode(SubmissionModel submissionModel);
+    /**
+     * 获取提交记录列表
+     * @param example
+     * @return
+     */
+    List<Submission> getListSubmission(SubmissionExample example);
+
 
     List<SubmissionModel> selectByExample(SubmissionExample submissionExample);
 }

@@ -64,7 +64,6 @@ public class ProblemController {
      * @return
      */
     @RequestMapping("getProblemById")
-    @ResponseBody
     public ProblemModel getProblem(int id){
         return problemService.getByProblemId(id);
     }
@@ -75,12 +74,11 @@ public class ProblemController {
      * @return
      */
     @RequestMapping("getProblemList")
-    @ResponseBody
-    public List<Problem> getProblemList(ProblemExample example){
+    public Result getProblemList(ProblemExample example){
         List<Problem> problemList = problemService.getProblemList(example);
         if (problemList != null) {
-            return problemList;
+            return Result.success(problemList);
         }
-        return null;
+        return Result.success(null);
     }
 }

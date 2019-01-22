@@ -596,4 +596,9 @@
       del = #{del,jdbcType=INTEGER}
     where contest_id = #{contestId,jdbcType=INTEGER}
   </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+    from _contest
+  </select>
 </mapper>
