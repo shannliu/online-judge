@@ -7,16 +7,11 @@ import cn.edu.nju.software.judge.dao.SubmissionCodeMapper;
 import cn.edu.nju.software.judge.dao.SubmissionMapper;
 import cn.edu.nju.software.judge.model.SubmissionModel;
 import cn.edu.nju.software.judge.service.submission.SubmissionService;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

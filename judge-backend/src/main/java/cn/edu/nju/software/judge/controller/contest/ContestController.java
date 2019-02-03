@@ -5,8 +5,6 @@ import cn.edu.nju.software.judge.beans.ContestWithBLOBs;
 import cn.edu.nju.software.judge.beans.Cproblem;
 import cn.edu.nju.software.judge.service.contest.ContestService;
 import cn.edu.nju.software.judge.vo.Result;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,11 +42,23 @@ import java.util.List;
 public class ContestController {
     @Resource
     private ContestService contestService;
+
+    /**
+     * 获取所有竞赛列表
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("getAllContests.do")
     public List<Contest> getAllContests(HttpServletRequest request, HttpServletResponse response){
         return contestService.getAllContests();
     }
 
+    /**
+     * 根据竞赛编号获取竞赛详情
+     * @param id
+     * @return
+     */
     @GetMapping("/contests/getContest.do")
     public Result getContest(@RequestParam("id")Integer id){
         ContestWithBLOBs result =  contestService.getContestByContestID(id);
@@ -58,6 +68,11 @@ public class ContestController {
         return Result.success(result);
     }
 
+    /**
+     * 根据竞赛编号获取竞赛的题目
+     * @param id
+     * @return
+     */
     @GetMapping("/contests/getProblems")
     public Result getProblems(@RequestParam("id")Integer id){
         List<Cproblem> result = contestService.getCproblemByContestID(id);

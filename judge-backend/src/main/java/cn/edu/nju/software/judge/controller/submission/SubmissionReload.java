@@ -1,12 +1,7 @@
 package cn.edu.nju.software.judge.controller.submission;
 
-import cn.edu.nju.software.judge.beans.Problem;
-import cn.edu.nju.software.judge.beans.Submission;
-import cn.edu.nju.software.judge.beans.SubmissionCode;
 import cn.edu.nju.software.judge.beans.SubmissionExample;
 import cn.edu.nju.software.judge.constant.RedisConstants;
-import cn.edu.nju.software.judge.dao.SubmissionCodeMapper;
-import cn.edu.nju.software.judge.dao.SubmissionMapper;
 import cn.edu.nju.software.judge.model.ProblemModel;
 import cn.edu.nju.software.judge.model.SubmissionCodeModel;
 import cn.edu.nju.software.judge.model.SubmissionModel;

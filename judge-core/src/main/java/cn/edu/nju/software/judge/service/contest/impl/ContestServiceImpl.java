@@ -5,10 +5,8 @@ import cn.edu.nju.software.judge.dao.ContestMapper;
 import cn.edu.nju.software.judge.dao.CproblemMapper;
 import cn.edu.nju.software.judge.service.contest.ContestService;
 import cn.edu.nju.software.judge.service.user.impl.UserServiceImpl;
-import cn.edu.nju.software.judge.vo.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

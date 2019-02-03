@@ -5,15 +5,11 @@ import cn.edu.nju.software.judge.beans.ProblemExample;
 import cn.edu.nju.software.judge.model.ProblemModel;
 import cn.edu.nju.software.judge.service.problem.ProblemService;
 import cn.edu.nju.software.judge.vo.Result;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -47,6 +43,11 @@ public class ProblemController {
     @Resource
     private ProblemService problemService;
 
+    /**
+     * 根据题目ID获取题目的详细信息
+     * @param problemId 题目ID
+     * @return
+     */
     @GetMapping("/detail")
     public Result detail(final Integer problemId){
 
